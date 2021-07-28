@@ -1,6 +1,7 @@
 package my.flick.rd.hw3.controller;
 
 import lombok.AllArgsConstructor;
+import my.flick.rd.hw3.dto.ProductRequestDto;
 import my.flick.rd.hw3.entity.Product;
 import my.flick.rd.hw3.service.ProductService;
 import org.hibernate.cfg.NotYetImplementedException;
@@ -40,7 +41,7 @@ public class ProductController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    long addProduct(@RequestBody Product product) {
+    long addProduct(@RequestBody ProductRequestDto product) {
                return productService.addProduct(product);
     }
 
