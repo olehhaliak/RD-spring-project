@@ -42,11 +42,19 @@ public class ProductService {
 
     /**
      * Updates product passed as an argument
-     * @param product
+     * @param productRequestDto
      * @return true if successfully updated, else returns false
      */
-    public boolean updateProduct(Product product){
-        if(productRepository.existsById(product.getId())){
+    public boolean updateProductById(ProductRequestDto productRequestDto,long id){
+
+        if(productRepository.existsById(id)){
+            Product product = new Product();
+            try {
+                new PropertyUtilsBean().copyProperties(product,productRequestDto);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            product.setId(id);
             productRepository.save(product);
             return true;
         }else{
