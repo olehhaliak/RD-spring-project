@@ -7,20 +7,17 @@ import my.flick.rd.hw3.dto.ProductRequestDto;
 import my.flick.rd.hw3.entity.Product;
 import my.flick.rd.hw3.repository.ProductRepository;
 import org.apache.commons.beanutils.PropertyUtilsBean;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class ProductService {
    private ProductRepository productRepository;
-
+   private PropertyUtilsBean propertyUtils;
 
     public List<Product> getAllProducts() {
        return (List<Product>) productRepository.findAll();
@@ -29,7 +26,7 @@ public class ProductService {
     public long addProduct(ProductRequestDto productRequestDto) {
         Product product = new Product();
         try {
-            new PropertyUtilsBean().copyProperties(product,productRequestDto);
+            propertyUtils.copyProperties(product,productRequestDto);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -50,7 +47,7 @@ public class ProductService {
         if(productRepository.existsById(id)){
             Product product = new Product();
             try {
-                new PropertyUtilsBean().copyProperties(product,productRequestDto);
+                propertyUtils.copyProperties(product,productRequestDto);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 e.printStackTrace();
             }

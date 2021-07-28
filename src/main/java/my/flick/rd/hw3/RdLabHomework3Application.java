@@ -1,7 +1,9 @@
 package my.flick.rd.hw3;
 
+import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class RdLabHomework3Application {
@@ -10,4 +12,8 @@ public class RdLabHomework3Application {
         SpringApplication.run(RdLabHomework3Application.class, args);
     }
 
+    @Bean("propertyUtils")
+    PropertyUtilsBean getPropertyUtils(){
+        return new PropertyUtilsBean();
+    }
 }
