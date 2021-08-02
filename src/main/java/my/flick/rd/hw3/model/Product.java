@@ -1,4 +1,4 @@
-package my.flick.rd.hw3.entity;
+package my.flick.rd.hw3.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

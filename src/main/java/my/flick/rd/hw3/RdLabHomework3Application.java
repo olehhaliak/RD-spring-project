@@ -4,8 +4,10 @@ import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
+@EnableAspectJAutoProxy
 public class RdLabHomework3Application {
 
     public static void main(String[] args) {

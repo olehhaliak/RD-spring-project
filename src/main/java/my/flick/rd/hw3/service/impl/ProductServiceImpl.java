@@ -3,7 +3,7 @@ package my.flick.rd.hw3.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.flick.rd.hw3.dto.ProductDto;
-import my.flick.rd.hw3.entity.Product;
+import my.flick.rd.hw3.model.Product;
 import my.flick.rd.hw3.exception.DBRecordNotFoundException;
 import my.flick.rd.hw3.repository.ProductRepository;
 import my.flick.rd.hw3.service.ProductService;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 
