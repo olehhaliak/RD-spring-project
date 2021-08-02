@@ -5,17 +5,15 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 public class Product {
+
     @Id
     @GeneratedValue
     private long id;
@@ -28,5 +26,4 @@ public class Product {
     private LocalDateTime creationTime;
     @UpdateTimestamp
     private LocalDateTime updateTime;
-
 }

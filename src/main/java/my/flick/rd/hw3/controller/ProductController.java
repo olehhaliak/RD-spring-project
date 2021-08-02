@@ -1,16 +1,12 @@
 package my.flick.rd.hw3.controller;
 
 import lombok.AllArgsConstructor;
-import my.flick.rd.hw3.dto.ProductRequestDto;
-import my.flick.rd.hw3.entity.Product;
+import my.flick.rd.hw3.dto.ProductDto;
 import my.flick.rd.hw3.service.ProductService;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController()
 @RequestMapping("/products")
@@ -22,17 +18,13 @@ public class ProductController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    List<Product> getAllProducts() {
+    List<ProductDto> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Product> getProduct(@PathVariable("id") long id) {
-        Optional<Product> productOptional = productService.getProduct(id);
-        if (productOptional.isPresent()) {
-            return new ResponseEntity<Product>(productOptional.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
+    ProductDto getProduct(@PathVariable("id") long id) {
+        return productService.getProductById(id);
     }
 
     /**
@@ -41,25 +33,20 @@ public class ProductController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    long addProduct(@RequestBody ProductRequestDto product) {
+    ProductDto addProduct(@RequestBody ProductDto product) {
         return productService.addProduct(product);
     }
 
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateProduct(@PathVariable("id") long id, @RequestBody ProductRequestDto productRequestDto) {
-        if (productService.updateProductById(productRequestDto,id)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    ProductDto updateProduct(@PathVariable("id") long id, @RequestBody ProductDto productDto) {
+       return productService.updateProduct(id, productDto);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteProduct(@PathVariable("id") long id) {
-        if (productService.deleteProduct(id)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deleteProduct(@PathVariable("id")long id) {
+        productService.deleteProduct(id);
     }
 
 
