@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.flick.rd.hw3.dto.ProductDto;
 import my.flick.rd.hw3.entity.Product;
+import my.flick.rd.hw3.exception.DBRecordNotFoundException;
 import my.flick.rd.hw3.repository.ProductRepository;
 import my.flick.rd.hw3.service.ProductService;
 import org.apache.commons.beanutils.PropertyUtilsBean;
@@ -34,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository
                 .findById(id)
                 .map(this::mapProductToProductDto)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(()->new DBRecordNotFoundException("No Product with specified id was found"));
     }
 
     @Override
@@ -49,12 +50,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto updateProduct(long id, ProductDto productDto) {
-
-        if (!productRepository.existsById(id)) {
-            throw new NoSuchElementException();
-        }
         Product oldProduct = productRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("No database record with specified id was found"));
+                .orElseThrow(() -> new DBRecordNotFoundException("Product you are trying to update does not exist"));
 
         Product product = mapProductDtoToProduct(productDto);
         product.setId(id);

@@ -1,6 +1,5 @@
 package my.flick.rd.hw3.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import my.flick.rd.hw3.controller.assembler.ProductAssembler;
 import my.flick.rd.hw3.controller.model.ProductModel;
@@ -50,6 +49,4 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }
