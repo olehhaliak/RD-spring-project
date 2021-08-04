@@ -1,6 +1,7 @@
 package my.flick.rd.hw3.controller;
 
 import lombok.RequiredArgsConstructor;
+import my.flick.rd.hw3.api.ProductApi;
 import my.flick.rd.hw3.controller.assembler.ProductAssembler;
 import my.flick.rd.hw3.controller.model.ProductModel;
 import my.flick.rd.hw3.dto.ProductDto;
@@ -13,38 +14,34 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController()
-@RequestMapping("/products")
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductController implements ProductApi {
 
     private final ProductService productService;
     private final ProductAssembler productAssembler;
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
+    @Override
     public List<ProductModel> getAllProducts() {
         return productService.getAllProducts().stream().map(productAssembler::toModel).collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
+    @Override
     public ProductModel getProduct(@PathVariable("id") long id) {
         return productAssembler.toModel(productService.getProductById(id));
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @Override
     public ProductModel addProduct(@RequestBody ProductDto product) {
-
         return productAssembler.toModel(productService.addProduct(product));
     }
 
 
-    @PutMapping("/{id}")
+    @Override
     public ProductModel updateProduct(@PathVariable("id") long id, @RequestBody ProductDto productDto) {
        return productAssembler.toModel(productService.updateProduct(id, productDto));
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     public ResponseEntity<Void> deleteProduct(@PathVariable("id")long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
