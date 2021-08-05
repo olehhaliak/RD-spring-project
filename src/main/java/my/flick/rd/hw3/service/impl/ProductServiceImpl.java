@@ -7,6 +7,7 @@ import my.flick.rd.hw3.model.Product;
 import my.flick.rd.hw3.exception.DBRecordNotFoundException;
 import my.flick.rd.hw3.repository.ProductRepository;
 import my.flick.rd.hw3.service.ProductService;
+import my.flick.rd.hw3.util.dtomapper.ProductDtoMapper;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,11 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final PropertyUtilsBean propertyUtils;
-
+    private final ProductDtoMapper dtoMapper;
     @Override
     public List<ProductDto> getAllProducts() {
         return ((List<Product>) productRepository.findAll()).stream()
-                .map(this::mapProductToProductDto)
+                .map(dtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -33,17 +34,17 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto getProductById(long id) {
         return productRepository
                 .findById(id)
-                .map(this::mapProductToProductDto)
+                .map(dtoMapper::mapToDto)
                 .orElseThrow(()->new DBRecordNotFoundException("No Product with specified id was found"));
     }
 
     @Override
     public ProductDto addProduct(ProductDto productRequestDto) {
 
-        Product product = mapProductDtoToProduct(productRequestDto);
+        Product product = dtoMapper.mapToModel(productRequestDto);
         log.info(product.toString());
         product = productRepository.save(product);
-        return mapProductToProductDto(product);
+        return dtoMapper.mapToDto(product);
     }
 
 
@@ -52,12 +53,12 @@ public class ProductServiceImpl implements ProductService {
         Product oldProduct = productRepository.findById(id)
                 .orElseThrow(() -> new DBRecordNotFoundException("Product you are trying to update does not exist"));
 
-        Product product = mapProductDtoToProduct(productDto);
+        Product product = dtoMapper.mapToModel(productDto);
         product.setId(id);
         product.setCreationTime(oldProduct.getCreationTime());
         product = productRepository.save(product);
         log.info(product.toString());
-        return mapProductToProductDto(product);
+        return dtoMapper.mapToDto(product);
     }
 
     @Override
@@ -67,25 +68,4 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    //Todo: consider moving to another class
-    Product mapProductDtoToProduct(ProductDto productDto) {
-        Product product = new Product();
-        try {
-            propertyUtils.copyProperties(product, productDto);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            log.error("Failed to map ProductDto to Product", e);
-        }
-        return product;
-    }
-
-    ProductDto mapProductToProductDto(Product product) {
-
-        ProductDto productDto = new ProductDto();
-        try {
-            propertyUtils.copyProperties(productDto, product);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            log.error("Failed to map Product to ProductDto", e);
-        }
-        return productDto;
-    }
 }
