@@ -3,7 +3,8 @@ Servlet-based app form external course, migrated to Spring
 
 Here is its description:
 
-```Інтернет магазин
+```
+Інтернет магазин
 
 Магазин має каталог Товарів, для якого необхідно реалізувати можливість:
 - сортування за назвою товару (az, za);
