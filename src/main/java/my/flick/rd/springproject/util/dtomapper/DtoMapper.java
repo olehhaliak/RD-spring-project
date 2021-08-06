@@ -1,7 +1,7 @@
 package my.flick.rd.springproject.util.dtomapper;
 
 /**
- * Common class for dto mappers
+ * Common interface for dto mappers
  * @param <M> - model
  * @param <D> - dto
  */

@@ -11,14 +11,14 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.InvocationTargetException;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class ProductDtoMapperImpl implements ProductDtoMapper {
-    private final PropertyUtilsBean propertyUtils;
+    private final PropertyUtilsBean propertyUtils = new PropertyUtilsBean();
 
     @Override
     public Product mapToModel(ProductDto dto) {
         Product product = new Product();
+
         try {
             propertyUtils.copyProperties(product, dto);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @Import(SwaggerConfig.class)
-public class RdLabHomework3Application {
+public class RdSpringProject {
 
     public static void main(String[] args) {
-        SpringApplication.run(RdLabHomework3Application.class, args);
+        SpringApplication.run(RdSpringProject.class, args);
     }
 
     @Bean("propertyUtils")
