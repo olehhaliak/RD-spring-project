@@ -24,7 +24,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("api-v1")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("my.flick.rd.hw3.controller"))
+                .apis(RequestHandlerSelectors.basePackage("my.flick.rd.springproject.controller"))
                 .paths(PathSelectors.ant("/api/v1/**"))
                 .build();
     }
