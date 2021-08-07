@@ -2,6 +2,7 @@ package my.flick.rd.springproject.service;
 
 import my.flick.rd.springproject.dto.CategoryDto;
 import my.flick.rd.springproject.exception.CategoryNotFoundException;
+import my.flick.rd.springproject.exception.SelfReferencingException;
 import my.flick.rd.springproject.repository.CategoryRepository;
 import my.flick.rd.springproject.service.impl.CategoryServiceImpl;
 import my.flick.rd.springproject.util.dtomapper.CategoryDtoMapper;
@@ -68,6 +69,11 @@ class CategoryServiceTest {
         assertThat(categoryService.updateCategory(CATEGORY_ID,CATEGORY_DTO),is(equalTo(CATEGORY_DTO)));
     }
 
+    @Test
+    void updateCategory_SelfReferencingTest() {
+        when(categoryRepository.existsById( anyLong())).thenReturn(true);
+        assertThrows(SelfReferencingException.class,()->categoryService.updateCategory(CATEGORY_PARENT.getId(),CATEGORY_DTO));
+    }
     @Test
     void updateCategory_NotExistTest() {
         when(categoryRepository.existsById( CATEGORY_ID)).thenReturn(false);

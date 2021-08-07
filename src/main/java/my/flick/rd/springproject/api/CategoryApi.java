@@ -4,6 +4,7 @@ import my.flick.rd.springproject.controller.model.CategoryModel;
 import my.flick.rd.springproject.dto.CategoryDto;
 import my.flick.rd.springproject.model.Category;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
@@ -18,6 +19,10 @@ public interface CategoryApi {
     @ResponseStatus(HttpStatus.OK)
     List<CategoryModel> getSubcategories(@PathVariable("id") long id);
 
+    @GetMapping("/sub")
+    @ResponseStatus(HttpStatus.OK)
+    List<CategoryModel> getRootCategories();
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     CategoryModel addCategory(@RequestBody CategoryDto categoryDto);
@@ -28,5 +33,6 @@ public interface CategoryApi {
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteCategory(@PathVariable long id);
+    ResponseEntity<Void> deleteCategory(@PathVariable long id);
+
 }

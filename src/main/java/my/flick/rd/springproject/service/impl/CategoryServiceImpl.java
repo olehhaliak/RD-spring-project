@@ -3,6 +3,7 @@ package my.flick.rd.springproject.service.impl;
 import lombok.RequiredArgsConstructor;
 import my.flick.rd.springproject.dto.CategoryDto;
 import my.flick.rd.springproject.exception.CategoryNotFoundException;
+import my.flick.rd.springproject.exception.SelfReferencingException;
 import my.flick.rd.springproject.model.Category;
 import my.flick.rd.springproject.repository.CategoryRepository;
 import my.flick.rd.springproject.service.CategoryService;
@@ -29,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto addCategory(CategoryDto categoryDto) {
         if (!parentExist(categoryDto)) {
-            throw new CategoryNotFoundException("Category with id specified does not exist");
+            throw new CategoryNotFoundException("Parent with id specified does not exist");
         }
         Category category = categoryRepository.save(categoryDtoMapper.mapToModel(categoryDto));
         return categoryDtoMapper.mapToDto(category);
@@ -42,6 +43,9 @@ public class CategoryServiceImpl implements CategoryService {
         }
         if (!parentExist(categoryDto)) {
             throw new CategoryNotFoundException("Category parent does not exist");
+        }
+        if(id==categoryDto.getParentId()){
+            throw new SelfReferencingException("Category`s id and parentId must be different");
         }
         Category category = categoryDtoMapper.mapToModel(categoryDto);
         category.setId(id);
@@ -71,5 +75,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .collect(Collectors.toList());
     }
 
-
+    //Todo: add tests
+    @Override
+    public List<CategoryDto> getRootCategories() {
+        return categoryRepository.getRootCategories().stream()
+                .map(categoryDtoMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
 }
