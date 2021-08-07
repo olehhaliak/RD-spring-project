@@ -44,6 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
             throw new CategoryNotFoundException("Category parent does not exist");
         }
         Category category = categoryDtoMapper.mapToModel(categoryDto);
+        category.setId(id);
         category = categoryRepository.save(category);
         return categoryDtoMapper.mapToDto(category);
     }

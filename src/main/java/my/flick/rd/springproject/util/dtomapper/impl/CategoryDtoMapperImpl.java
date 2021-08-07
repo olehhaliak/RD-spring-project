@@ -5,6 +5,8 @@ import my.flick.rd.springproject.model.Category;
 import my.flick.rd.springproject.util.dtomapper.CategoryDtoMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 public class CategoryDtoMapperImpl implements CategoryDtoMapper {
     @Override
@@ -21,14 +23,24 @@ public class CategoryDtoMapperImpl implements CategoryDtoMapper {
         return CategoryDto.builder()
                 .id(model.getId())
                 .name(model.getName())
-                .parentId(model.getParent().getId())
+                .parentId(getParentId(model))
                 .build();
     }
 
+    private long getParentId(Category model) {
+        if (Objects.isNull(model.getParent())) {
+            return 0;
+        } else {
+            return model.getParent().getId();
+        }
+    }
+
     private Category getParent(CategoryDto dto) {
-        return Category.builder()
-                .id(dto.getParentId())
-                .build();
+        if (dto.getParentId() != 0) {
+            return Category.builder().id(dto.getParentId()).build();
+        } else {
+            return null;
+        }
     }
 
 }
