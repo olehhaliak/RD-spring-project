@@ -2,11 +2,9 @@ package my.flick.rd.springproject.service.impl;
 
 import static my.flick.rd.springproject.test.utils.ProductTestData.*;
 
-import my.flick.rd.springproject.exception.DBRecordNotFoundException;
+import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.repository.ProductRepository;
 import my.flick.rd.springproject.util.dtomapper.impl.ProductDtoMapperImpl;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -42,10 +40,10 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void getProductByIdNotFoundTest() {
+    void getProductByIdProductNotFoundTest() {
         when(productRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(DBRecordNotFoundException.class, () -> productService.getProductById(0));
+        assertThrows(ProductNotFoundException.class, () -> productService.getProductById(0));
     }
 
     @Test
@@ -79,7 +77,7 @@ class ProductServiceImplTest {
     void updateProductNotExists() {
         when((productRepository.findById(PRODUCT_ID))).thenReturn(Optional.empty());
 
-        assertThrows(DBRecordNotFoundException.class, () -> productService.updateProduct(PRODUCT_ID, PRODUCT_DTO));
+        assertThrows(ProductNotFoundException.class, () -> productService.updateProduct(PRODUCT_ID, PRODUCT_DTO));
     }
 
     @Test
@@ -92,7 +90,6 @@ class ProductServiceImplTest {
     @Test
     void deleteProductNotExistsTest() {
         when(productRepository.existsById(PRODUCT_ID)).thenReturn(false);
-        assertThrows(DBRecordNotFoundException.class, () -> productService.deleteProduct(PRODUCT_ID));
-        verify(productRepository).deleteById(PRODUCT_ID);
+        assertThrows(ProductNotFoundException.class, () -> productService.deleteProduct(PRODUCT_ID));
     }
 }
