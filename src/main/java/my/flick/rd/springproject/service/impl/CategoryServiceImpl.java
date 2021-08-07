@@ -9,6 +9,9 @@ import my.flick.rd.springproject.service.CategoryService;
 import my.flick.rd.springproject.util.dtomapper.CategoryDtoMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
@@ -25,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto addCategory(CategoryDto categoryDto) {
-        if(!parentExist(categoryDto)){
+        if (!parentExist(categoryDto)) {
             throw new CategoryNotFoundException("Category with id specified does not exist");
         }
         Category category = categoryRepository.save(categoryDtoMapper.mapToModel(categoryDto));
@@ -34,10 +37,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto updateCategory(long id, CategoryDto categoryDto) {
-        if(!categoryRepository.existsById(id)){
+        if (!categoryRepository.existsById(id)) {
             throw new CategoryNotFoundException("Category with id specified does not exist");
         }
-        if(!parentExist(categoryDto)){
+        if (!parentExist(categoryDto)) {
             throw new CategoryNotFoundException("Category parent does not exist");
         }
         Category category = categoryDtoMapper.mapToModel(categoryDto);
@@ -47,14 +50,25 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     private boolean parentExist(CategoryDto categoryDto) {
-        return categoryDto.getParentId()==0||categoryRepository.existsById(categoryDto.getParentId());
+        return categoryDto.getParentId() == 0 || categoryRepository.existsById(categoryDto.getParentId());
     }
 
     @Override
     public void deleteCategory(long id) {
-        if(!categoryRepository.existsById(id)){
+        if (!categoryRepository.existsById(id)) {
             throw new CategoryNotFoundException("Category with id specified does not exists");
         }
         categoryRepository.deleteById(id);
     }
+
+    public List<CategoryDto> getSubcategories(long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new CategoryNotFoundException("Category with id specified does not exists");
+        }
+        return categoryRepository.getSubcategories(id).stream()
+                .map(categoryDtoMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+
 }

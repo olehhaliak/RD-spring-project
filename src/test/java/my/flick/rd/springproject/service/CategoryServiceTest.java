@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -92,4 +93,19 @@ class CategoryServiceTest {
         when(categoryRepository.existsById( CATEGORY_ID)).thenReturn(false);
         assertThrows(CategoryNotFoundException.class,()->categoryService.deleteCategory(CATEGORY_ID));
     }
+
+    @Test
+    void getSubCategoriesTest() {
+        when(categoryRepository.existsById( CATEGORY_PARENT.getId())).thenReturn(true);
+        when(categoryRepository.getSubcategories(CATEGORY_PARENT.getId())).thenReturn(List.of(CATEGORY));
+        when(categoryDtoMapper.mapToDto(CATEGORY)).thenReturn(CATEGORY_DTO);
+        assertThat(categoryService.getSubcategories(CATEGORY_PARENT.getId()),contains(CATEGORY_DTO));
+    }
+
+    @Test
+    void getSubCategories_NotExistsTest() {
+        when(categoryRepository.existsById(anyLong())).thenReturn(false);
+        assertThrows(CategoryNotFoundException.class,()->categoryService.getSubcategories(CATEGORY_PARENT.getId()));
+    }
+
 }
