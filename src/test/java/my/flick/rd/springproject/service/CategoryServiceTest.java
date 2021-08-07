@@ -114,4 +114,10 @@ class CategoryServiceTest {
         assertThrows(CategoryNotFoundException.class,()->categoryService.getSubcategories(CATEGORY_PARENT.getId()));
     }
 
+    @Test
+    void getRootCategoriesTest() {
+        when(categoryDtoMapper.mapToDto(CATEGORY)).thenReturn(CATEGORY_DTO);
+        when(categoryRepository.getRootCategories()).thenReturn(List.of(CATEGORY));
+        assertThat(categoryService.getRootCategories(),contains(CATEGORY_DTO));
+    }
 }
