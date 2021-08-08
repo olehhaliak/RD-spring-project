@@ -2,6 +2,7 @@ package my.flick.rd.springproject.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import my.flick.rd.springproject.dto.UserDto;
+import my.flick.rd.springproject.exception.InputValidationException;
 import my.flick.rd.springproject.exception.UserNotFoundException;
 import my.flick.rd.springproject.model.User;
 import my.flick.rd.springproject.repository.UserRepository;
@@ -34,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto addUser(UserDto userDto) {
+       if(!userDto.getPassword().equals(userDto.getPasswordRepeat())){
+          throw  new InputValidationException("password and repeatPassword fields must be equal") ;//Todo:add test
+       }
         User user = userMapper.mapToModel(userDto);
         user = userRepository.save(user);
         return userMapper.mapToDto(user);
