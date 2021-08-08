@@ -24,6 +24,7 @@ public class UserTestData {
                 .id(USER_ID)
                 .email(USER_EMAIL)
                 .password(USER_PASSWORD)
+                .passwordRepeat(USER_PASSWORD)
                 .role(USER_ROLE)
                 .build();
     }
