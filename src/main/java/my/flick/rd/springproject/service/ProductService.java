@@ -15,4 +15,5 @@ public interface ProductService {
 
     void deleteProduct(long id);
 
+    boolean exists(long productId);
 }
