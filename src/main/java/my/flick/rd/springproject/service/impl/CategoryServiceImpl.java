@@ -27,6 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new CategoryNotFoundException("Category with id specified does not exist"));
     }
 
+
     @Override
     public CategoryDto addCategory(CategoryDto categoryDto) {
         if (!parentExist(categoryDto)) {

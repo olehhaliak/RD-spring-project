@@ -1,8 +1,9 @@
 package my.flick.rd.springproject.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import my.flick.rd.springproject.exception.NotFoundException;
-import my.flick.rd.springproject.exception.SelfReferencingException;
+import my.flick.rd.springproject.annotation.RequireAdminPrivileges;
+import my.flick.rd.springproject.exception.*;
+import my.flick.rd.springproject.exception.SecurityException;
 import my.flick.rd.springproject.model.Error;
 import my.flick.rd.springproject.model.enums.ErrorType;
 import org.springframework.http.HttpStatus;
@@ -39,5 +40,15 @@ public class ExceptionHandlingController {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Error> handleException(HttpMessageNotReadableException exception){
         return new ResponseEntity<>(new Error(exception.getMessage(), ErrorType.VALIDATION_ERROR_TYPE),HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNotAuthentificatedException.class)
+    public ResponseEntity<Error> handleException(UserNotAuthentificatedException exception){
+        return new ResponseEntity<>(new Error(exception),HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AdminPrivilegesRequiredException.class)
+    public ResponseEntity<Error> handleException(AdminPrivilegesRequiredException exception){
+        return new ResponseEntity<>(new Error(exception),HttpStatus.FORBIDDEN);
     }
 }

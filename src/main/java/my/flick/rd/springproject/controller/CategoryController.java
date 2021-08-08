@@ -1,6 +1,7 @@
 package my.flick.rd.springproject.controller;
 
 import lombok.RequiredArgsConstructor;
+import my.flick.rd.springproject.annotation.RequireAdminPrivileges;
 import my.flick.rd.springproject.api.CategoryApi;
 import my.flick.rd.springproject.controller.assembler.CategoryAssembler;
 import my.flick.rd.springproject.controller.model.CategoryModel;
