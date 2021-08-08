@@ -1,10 +1,11 @@
-package my.flick.rd.springproject.util.mapper.impl;
+package my.flick.rd.springproject.service.impl;
 
 import my.flick.rd.springproject.dto.OrderItemDto;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.model.Cart;
 import my.flick.rd.springproject.service.ProductService;
 import my.flick.rd.springproject.util.mapper.OrderItemDtoMapper;
+import my.flick.rd.springproject.util.mapper.impl.CartServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -69,5 +70,12 @@ class CartServiceImplTest {
     void clearTest() {
        cartService.clear();
        verify(cart).clear();
+    }
+
+    @Test
+    void getItemsTest() {
+        when(cart.getItems()).thenReturn(Set.of(testOrderItem()));
+        when(orderItemDtoMapper.mapToDto(any())).thenReturn(testOrderItemDto());
+        assertThat(cartService.getItems(), contains(testOrderItemDto()));
     }
 }

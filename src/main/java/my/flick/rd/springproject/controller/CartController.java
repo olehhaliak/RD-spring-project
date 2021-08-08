@@ -34,4 +34,9 @@ public class CartController implements CartApi {
          cartService.clear();
        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
+
+    @Override
+    public List<OrderItemModel> getItemsFromCart() {
+        return cartService.getItems().stream().map(cartAssembler::toModel).collect(Collectors.toList());
+    }
 }

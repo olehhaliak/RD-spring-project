@@ -18,6 +18,12 @@ public class CartServiceImpl implements CartService {
    private final Cart cart;
    private final OrderItemDtoMapper itemDtoMapper;
    private final ProductService productService;
+
+    @Override
+    public Set<OrderItemDto> getItems() {
+        return cart.getItems().stream().map(itemDtoMapper::mapToDto).collect(Collectors.toSet());
+    }
+
     @Override
     public Set<OrderItemDto> saveItem(OrderItemDto itemDto) {
         if(!productService.exists(itemDto.getProductId())) {

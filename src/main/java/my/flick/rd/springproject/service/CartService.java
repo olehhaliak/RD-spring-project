@@ -2,6 +2,7 @@ package my.flick.rd.springproject.service;
 
 import my.flick.rd.springproject.dto.OrderItemDto;
 
+import java.util.Arrays;
 import java.util.Set;
 
 public interface CartService {
@@ -19,5 +20,7 @@ public interface CartService {
     Set<OrderItemDto> popItems();
 
     void clear();
+
+    Set<OrderItemDto> getItems();
     //Todo:add method for ceatingOrder
 }

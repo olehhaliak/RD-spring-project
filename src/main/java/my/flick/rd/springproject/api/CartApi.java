@@ -24,6 +24,9 @@ public interface CartApi {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     ResponseEntity<Void> clear();
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    List<OrderItemModel> getItemsFromCart();
 
 
 }
