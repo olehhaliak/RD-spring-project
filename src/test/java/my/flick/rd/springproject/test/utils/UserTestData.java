@@ -9,16 +9,22 @@ public class UserTestData {
     public static final String USER_EMAIL = "user@mail.com";
     public static final String USER_PASSWORD = "password";
     public static final Role USER_ROLE = Role.CUSTOMER;
-    public static final User USER = User.builder()
-            .id(USER_ID)
-            .email(USER_EMAIL)
-            .password(USER_PASSWORD)
-            .role(USER_ROLE)
-            .build();
-    public static final UserDto USER_DTO = UserDto.builder()
-            .id(USER_ID)
-            .email(USER_EMAIL)
-            .password(USER_PASSWORD)
-            .role(USER_ROLE)
-            .build();
+
+    public static User getUser() {
+        return User.builder()
+                .id(USER_ID)
+                .email(USER_EMAIL)
+                .password(USER_PASSWORD)
+                .role(USER_ROLE)
+                .build();
+    }
+
+    public static UserDto getUserDto() {
+        return UserDto.builder()
+                .id(USER_ID)
+                .email(USER_EMAIL)
+                .password(USER_PASSWORD)
+                .role(USER_ROLE)
+                .build();
+    }
 }

@@ -7,7 +7,7 @@ import my.flick.rd.springproject.exception.SelfReferencingException;
 import my.flick.rd.springproject.model.Category;
 import my.flick.rd.springproject.repository.CategoryRepository;
 import my.flick.rd.springproject.service.CategoryService;
-import my.flick.rd.springproject.util.dtomapper.CategoryDtoMapper;
+import my.flick.rd.springproject.util.mapper.CategoryDtoMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

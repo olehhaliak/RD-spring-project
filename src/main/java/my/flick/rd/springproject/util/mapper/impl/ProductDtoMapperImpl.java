@@ -1,11 +1,10 @@
-package my.flick.rd.springproject.util.dtomapper.impl;
+package my.flick.rd.springproject.util.mapper.impl;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.flick.rd.springproject.dto.ProductDto;
 import my.flick.rd.springproject.model.Category;
 import my.flick.rd.springproject.model.Product;
-import my.flick.rd.springproject.util.dtomapper.ProductDtoMapper;
+import my.flick.rd.springproject.util.mapper.ProductDtoMapper;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.springframework.stereotype.Component;
 

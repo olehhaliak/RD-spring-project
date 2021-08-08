@@ -1,15 +1,15 @@
-package my.flick.rd.springproject.util.dtomapper.impl;
+package my.flick.rd.springproject.util.mapper.impl;
 
 import my.flick.rd.springproject.dto.UserDto;
 import my.flick.rd.springproject.model.User;
-import my.flick.rd.springproject.util.dtomapper.UserDtoMapper;
+import my.flick.rd.springproject.util.mapper.UserMapper;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 
 @Component
-public class UserDtoMapperImpl implements UserDtoMapper {
+public class UserMapperImpl implements UserMapper {
     private final PropertyUtilsBean propertyUtils = new PropertyUtilsBean();
 
     @Override
@@ -34,5 +34,15 @@ public class UserDtoMapperImpl implements UserDtoMapper {
         }
         dto.setPassword(null);
         return dto;
+    }
+
+    @Override
+    public void overwriteNotNullProperties(User source, User destination) {
+        if(source.getEmail()!=null){
+            destination.setEmail(source.getEmail());
+        }
+        if(source.getRole()!=null){
+            destination.setRole(source.getRole());
+        }
     }
 }

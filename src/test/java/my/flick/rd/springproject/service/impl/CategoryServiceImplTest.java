@@ -1,11 +1,9 @@
-package my.flick.rd.springproject.service;
+package my.flick.rd.springproject.service.impl;
 
-import my.flick.rd.springproject.dto.CategoryDto;
 import my.flick.rd.springproject.exception.CategoryNotFoundException;
 import my.flick.rd.springproject.exception.SelfReferencingException;
 import my.flick.rd.springproject.repository.CategoryRepository;
-import my.flick.rd.springproject.service.impl.CategoryServiceImpl;
-import my.flick.rd.springproject.util.dtomapper.CategoryDtoMapper;
+import my.flick.rd.springproject.util.mapper.CategoryDtoMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +21,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static my.flick.rd.springproject.test.utils.CategoryTestData.*;
 @ExtendWith(MockitoExtension.class)
-class CategoryServiceTest {
+class CategoryServiceImplTest {
 
     @Mock
     CategoryRepository categoryRepository;

@@ -1,4 +1,4 @@
-package my.flick.rd.springproject.util.dtomapper;
+package my.flick.rd.springproject.util.mapper;
 
 /**
  * Common interface for dto mappers

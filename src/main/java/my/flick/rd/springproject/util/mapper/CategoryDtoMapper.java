@@ -1,4 +1,4 @@
-package my.flick.rd.springproject.util.dtomapper;
+package my.flick.rd.springproject.util.mapper;
 
 import my.flick.rd.springproject.dto.CategoryDto;
 import my.flick.rd.springproject.model.Category;

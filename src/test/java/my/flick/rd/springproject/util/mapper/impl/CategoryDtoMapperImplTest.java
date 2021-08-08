@@ -1,4 +1,4 @@
-package my.flick.rd.springproject.util.dtomapper.impl;
+package my.flick.rd.springproject.util.mapper.impl;
 
 import my.flick.rd.springproject.model.Category;
 import org.junit.jupiter.api.Test;

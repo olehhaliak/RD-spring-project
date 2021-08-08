@@ -9,7 +9,7 @@ import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.repository.ProductRepository;
 import my.flick.rd.springproject.service.CategoryService;
 import my.flick.rd.springproject.service.ProductService;
-import my.flick.rd.springproject.util.dtomapper.ProductDtoMapper;
+import my.flick.rd.springproject.util.mapper.ProductDtoMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

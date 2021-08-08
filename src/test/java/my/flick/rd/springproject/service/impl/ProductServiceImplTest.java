@@ -5,7 +5,7 @@ import static my.flick.rd.springproject.test.utils.ProductTestData.*;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.repository.ProductRepository;
 import my.flick.rd.springproject.service.CategoryService;
-import my.flick.rd.springproject.util.dtomapper.impl.ProductDtoMapperImpl;
+import my.flick.rd.springproject.util.mapper.impl.ProductDtoMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

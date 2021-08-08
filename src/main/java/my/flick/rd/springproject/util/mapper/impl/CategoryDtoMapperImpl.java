@@ -1,8 +1,8 @@
-package my.flick.rd.springproject.util.dtomapper.impl;
+package my.flick.rd.springproject.util.mapper.impl;
 
 import my.flick.rd.springproject.dto.CategoryDto;
 import my.flick.rd.springproject.model.Category;
-import my.flick.rd.springproject.util.dtomapper.CategoryDtoMapper;
+import my.flick.rd.springproject.util.mapper.CategoryDtoMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

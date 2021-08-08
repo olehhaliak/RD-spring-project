@@ -1,11 +1,8 @@
-package my.flick.rd.springproject.util.dtomapper.impl;
+package my.flick.rd.springproject.util.mapper.impl;
 import static my.flick.rd.springproject.test.utils.ProductTestData.*;
 import my.flick.rd.springproject.dto.ProductDto;
 import my.flick.rd.springproject.model.Product;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
