@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "api for user management")
+@Api(tags = "User management api")
 //Todo: add constant or property of api path
 @RequestMapping("/api/v1/users")
 public interface UserApi {

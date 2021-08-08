@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
-@Api(tags = "category management api")
+@Api(tags = "Category management api")
 @RequestMapping("/api/v1/categories")
 public interface CategoryApi {
     @ApiOperation("get by id")
