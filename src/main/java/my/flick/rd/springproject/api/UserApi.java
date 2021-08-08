@@ -1,5 +1,8 @@
 package my.flick.rd.springproject.api;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import my.flick.rd.springproject.controller.model.UserModel;
 import my.flick.rd.springproject.dto.UserDto;
 import my.flick.rd.springproject.dto.validationgroups.OnCreate;
@@ -11,26 +14,36 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = "api for user management")
 //Todo: add constant or property of api path
 @RequestMapping("/api/v1/users")
 public interface UserApi {
 
+    @ApiOperation("get user by id")
+    @ApiImplicitParam(name = "id", type = "path", required = true, paramType = "long")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     UserModel getUserById(@PathVariable("id") long id);
 
+    @ApiOperation("get all users")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     List<UserModel> getAllUsers();
 
+
+    @ApiOperation("add new user")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     UserModel createUser(@RequestBody @Validated(OnCreate.class) UserDto userDto);
 
+    @ApiOperation("update user")
+    @ApiImplicitParam(name = "id", type = "path", required = true, paramType = "long")
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     UserModel updateUser(@PathVariable long id,@RequestBody @Validated(OnUpdate.class) UserDto userDto);
 
+    @ApiOperation("delete user")
+    @ApiImplicitParam(name = "id", type = "path", required = true, paramType = "long")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     ResponseEntity<Void> deleteUser(@PathVariable long id);
