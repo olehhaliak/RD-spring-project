@@ -5,9 +5,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -20,6 +19,7 @@ public class Cart {//todo: make interface of it
 
     public void saveItem(OrderItem item) {
         items.put(item.getProduct().getId(), item);
+        System.out.println(Arrays.toString(items.values().toArray()));
     }
 
     public void deleteItem(long productId) {
@@ -34,7 +34,7 @@ public class Cart {//todo: make interface of it
     }
 
     public Set<OrderItem> getItems() {
-        return (Set<OrderItem>) items.values();
+        return new HashSet<>(items.values());
     }
 
    public Set<OrderItem> pop(){

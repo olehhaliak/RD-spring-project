@@ -4,7 +4,9 @@ import my.flick.rd.springproject.dto.OrderItemDto;
 import my.flick.rd.springproject.model.OrderItem;
 import my.flick.rd.springproject.model.Product;
 import my.flick.rd.springproject.util.mapper.OrderItemDtoMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderItemDtoMapperImpl implements OrderItemDtoMapper {
 
     @Override
