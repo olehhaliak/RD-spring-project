@@ -22,4 +22,6 @@ public interface CategoryService {
     List<CategoryDto> getSubcategories(long id) throws CategoryNotFoundException;
 
     List<CategoryDto> getRootCategories();
+
+    boolean existsById(long id);
 }

@@ -82,4 +82,8 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(categoryDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
+
+    public boolean existsById(long id){
+        return categoryRepository.existsById(id);
+    }
 }

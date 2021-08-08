@@ -25,6 +25,9 @@ public class Product {
     private BigDecimal price;
     private String description;
     private int quantity;
+    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "category_id")
+    private Category category;
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime creationTime;

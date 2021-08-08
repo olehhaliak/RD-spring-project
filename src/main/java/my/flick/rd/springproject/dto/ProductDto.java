@@ -26,10 +26,15 @@ public class ProductDto {
     private String description;
     @PositiveOrZero(message = "quantity should be equal or greater than 0")
     private int quantity;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
 
+
+    @Positive
+    private long categoryId;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Null(message = "update time should be absent in request")
     private LocalDateTime creationTime;
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Null(message = "update time should be absent in request")
     private LocalDateTime updateTime;
