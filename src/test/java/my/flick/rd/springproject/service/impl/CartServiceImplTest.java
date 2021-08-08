@@ -1,6 +1,5 @@
 package my.flick.rd.springproject.service.impl;
 
-import my.flick.rd.springproject.dto.OrderItemDto;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.model.Cart;
 import my.flick.rd.springproject.service.ProductService;
@@ -10,13 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Set;
 
 import static my.flick.rd.springproject.test.utils.OrderItemTestData.*;
-import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.*;
