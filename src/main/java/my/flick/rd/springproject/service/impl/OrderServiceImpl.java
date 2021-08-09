@@ -3,6 +3,7 @@ package my.flick.rd.springproject.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.flick.rd.springproject.dto.OrderDto;
+import my.flick.rd.springproject.exception.OrderItemNotFoundException;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.model.Order;
 import my.flick.rd.springproject.model.OrderItem;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,26 +55,28 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getAllOrders() {
-        return null;
-    }
-
-    @Override
-    public List<OrderDto> getAllActiveOrders() {
-        return null;
+        return orderRepository.findAll().stream().map(orderDtoMapper::mapToDto).collect(Collectors.toList());
     }
 
     @Override
     public List<OrderDto> getCurrentUserOrders() {
-        return null;
+        return getUserOrders(authService.getCustomer().getId());
     }
 
     @Override
     public List<OrderDto> getUserOrders(long userId) {
-        return null;
+        return orderRepository.findOrderByCustomer(userId).stream()
+                .map(orderDtoMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public OrderDto changeOrderStatus(OrderDto dto) {
-        return null;
+    public OrderDto changeOrderStatus(long id, Status status) {
+        Order order = orderRepository
+                .findById(id)
+                .orElseThrow(()-> new OrderItemNotFoundException("Order with such id does not exists"));
+        order.setStatus(status);
+        order = orderRepository.save(order);
+        return orderDtoMapper.mapToDto(order);
     }
 }

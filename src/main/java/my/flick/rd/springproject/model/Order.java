@@ -16,8 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "receipt")
-@Table(name = "receipt")
+@Entity(name = "Receipt")
+//@Table(name = "receipt")
 public class Order {
     @Id
     @GeneratedValue
@@ -26,6 +26,7 @@ public class Order {
     @ManyToOne
     User customer;
 
+    @Enumerated(EnumType.STRING)
     Status status;
 
     @OneToMany(fetch = FetchType.LAZY,orphanRemoval = true,cascade = CascadeType.ALL)
