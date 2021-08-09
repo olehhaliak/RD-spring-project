@@ -7,13 +7,18 @@ import my.flick.rd.springproject.exception.CategoryNotFoundException;
 import my.flick.rd.springproject.model.Product;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.model.ProductSearchTemplate;
+import my.flick.rd.springproject.model.enums.SortOption;
 import my.flick.rd.springproject.repository.ProductRepository;
 import my.flick.rd.springproject.service.CategoryService;
 import my.flick.rd.springproject.service.ProductService;
 import my.flick.rd.springproject.util.mapper.ProductDtoMapper;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.comparator.Comparators;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +33,41 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> getProducts(ProductSearchTemplate searchTemplate) {
+        if (searchTemplate == null) {
+            return getAllProducts();
+        }
+        return getProductsByTemplate(searchTemplate);
+    }
+
+    private List<ProductDto> getProductsByTemplate(ProductSearchTemplate searchTemplate) {
+        List<Product> products = productRepository.findBySearchParams(
+                searchTemplate.getInCategory(),
+                searchTemplate.getWithMinPrice(),
+                searchTemplate.getWithMaxPrice()
+        );
+        products = sortProducts(products, searchTemplate.getSortBy(), searchTemplate.isDescendingOrder());
+        return products.stream().map(dtoMapper::mapToDto).collect(Collectors.toList());
+    }
+
+    private List<Product> sortProducts(List<Product> products, SortOption sortBy, boolean descendingOrder) {
+        var stream = products.stream();
+        if (sortBy.equals(SortOption.NAME)) {
+            stream = stream.sorted(Comparator.comparing(Product::getName));
+        }
+        if (sortBy.equals(SortOption.PRICE)) {
+            stream = stream.sorted(Comparator.comparing(Product::getPrice));
+        }
+        if (sortBy.equals(SortOption.PUBLICATION_TIME)) {
+            stream = stream.sorted(Comparator.comparing(Product::getCreationTime));
+        }
+        products = stream.collect(Collectors.toList());
+        if (descendingOrder) {
+            Collections.reverse(products);
+        }
+        return products;
+    }
+
+    private List<ProductDto> getAllProducts() {
         return ((List<Product>) productRepository.findAll()).stream()
                 .map(dtoMapper::mapToDto)
                 .collect(Collectors.toList());
@@ -43,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProduct(Product product) {
-       throw new NotYetImplementedException();
+        throw new NotYetImplementedException();
     }
 
     @Override
@@ -81,6 +121,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean exists(long id) {
-       return productRepository.existsById(id);
+        return productRepository.existsById(id);
     }
 }

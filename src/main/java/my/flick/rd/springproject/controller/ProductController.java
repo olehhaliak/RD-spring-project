@@ -21,7 +21,7 @@ public class ProductController implements ProductApi {
     private final ProductAssembler productAssembler;
 
     @Override
-    public List<ProductModel> getProducts(ProductSearchTemplate searchTemplate) {
+    public List<ProductModel> getProduct(ProductSearchTemplate searchTemplate) {
         return productService.getProducts(searchTemplate).stream().map(productAssembler::toModel).collect(Collectors.toList());
     }
 

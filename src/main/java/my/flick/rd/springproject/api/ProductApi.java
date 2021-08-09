@@ -21,7 +21,7 @@ public interface ProductApi {
     @ApiOperation("get all")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductModel> getProducts(@RequestBody(required = false)ProductSearchTemplate searchTemplate);
+    public List<ProductModel> getProduct( @RequestBody(required = false)ProductSearchTemplate searchTemplate);
 
     @ApiOperation("get by id")
     @ApiImplicitParam(name = "id", type = "path", required = true, paramType = "long")
