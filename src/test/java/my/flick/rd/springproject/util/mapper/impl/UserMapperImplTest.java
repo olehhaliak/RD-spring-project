@@ -11,7 +11,7 @@ class UserMapperImplTest {
     UserMapperImpl userDtoMapper = new UserMapperImpl();
     @Test
     void mapToDtoTest() {
-        UserDto actualDto = userDtoMapper.mapToDto(getUser());
+        UserDto actualDto = userDtoMapper.mapToDto(testUser());
         assertAll(
                 ()->assertEquals(USER_ID,actualDto.getId()),
                 ()->assertEquals(USER_EMAIL,actualDto.getEmail()),
@@ -35,8 +35,8 @@ class UserMapperImplTest {
     public void overwriteNotNullProperties_AllPresentTest(){
         String newEmail = "user2@mail.com";
         Role newRole = Role.ADMIN;
-        User dest = getUser();
-        User src = getUser();
+        User dest = testUser();
+        User src = testUser();
         src.setEmail(newEmail);
         src.setRole(newRole);
         userDtoMapper.overwriteNotNullProperties(src,dest);
@@ -48,8 +48,8 @@ class UserMapperImplTest {
 
     @Test
     public void overwriteNotNullProperties_AllNullTest(){
-        User dest = getUser();
-        User src = getUser();
+        User dest = testUser();
+        User src = testUser();
         src.setEmail(null);
         src.setRole(null);
         userDtoMapper.overwriteNotNullProperties(src,dest);

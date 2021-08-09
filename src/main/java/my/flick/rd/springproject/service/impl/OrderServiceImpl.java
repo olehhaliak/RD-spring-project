@@ -13,6 +13,7 @@ import my.flick.rd.springproject.service.AuthService;
 import my.flick.rd.springproject.service.OrderService;
 import my.flick.rd.springproject.service.ProductService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -26,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
 
     @Override
-//    @Transactional
+    @Transactional
     public OrderDto createOrder(Set<OrderItem> items) {
         User customer = authService.getCustomer();
         checkForProductExistence(items);

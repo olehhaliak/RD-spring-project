@@ -10,7 +10,7 @@ public class UserTestData {
     public static final String USER_PASSWORD = "password";
     public static final Role USER_ROLE = Role.CUSTOMER;
 
-    public static User getUser() {
+    public static User testUser() {
         return User.builder()
                 .id(USER_ID)
                 .email(USER_EMAIL)

@@ -2,7 +2,6 @@ package my.flick.rd.springproject.service.impl;
 
 import my.flick.rd.springproject.dto.UserDto;
 import my.flick.rd.springproject.exception.UserNotFoundException;
-import my.flick.rd.springproject.model.User;
 import my.flick.rd.springproject.model.enums.Role;
 import my.flick.rd.springproject.repository.UserRepository;
 import my.flick.rd.springproject.util.mapper.UserMapper;
@@ -20,7 +19,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.internal.configuration.GlobalConfiguration.validate;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -37,8 +35,8 @@ class UserServiceImplTest {
 
     @Test
     void getUserByIdTest() {
-        when(userRepository.findById(USER_ID)).thenReturn(Optional.of(getUser()));
-        when(userMapper.mapToDto(getUser())).thenReturn(getUserDto());
+        when(userRepository.findById(USER_ID)).thenReturn(Optional.of(testUser()));
+        when(userMapper.mapToDto(testUser())).thenReturn(getUserDto());
         assertThat(userService.getUserById(USER_ID), is(equalTo(getUserDto())));
     }
 
@@ -50,16 +48,16 @@ class UserServiceImplTest {
 
     @Test
     void getAllUsersTest() {
-        when(userRepository.findAll()).thenReturn(List.of(getUser()));
-        when(userMapper.mapToDto(getUser())).thenReturn(getUserDto());
+        when(userRepository.findAll()).thenReturn(List.of(testUser()));
+        when(userMapper.mapToDto(testUser())).thenReturn(getUserDto());
         assertThat(userService.getAllUsers(), contains(getUserDto()));
     }
 
     @Test
     void addUserTest() {
-        when(userMapper.mapToModel(getUserDto())).thenReturn(getUser());
-        when(userMapper.mapToDto(getUser())).thenReturn(getUserDto());
-        when(userRepository.save(getUser())).thenReturn(getUser());
+        when(userMapper.mapToModel(getUserDto())).thenReturn(testUser());
+        when(userMapper.mapToDto(testUser())).thenReturn(getUserDto());
+        when(userRepository.save(testUser())).thenReturn(testUser());
         assertThat(userService.addUser(getUserDto()),is(equalTo(getUserDto())));
     }
 
@@ -68,9 +66,9 @@ class UserServiceImplTest {
         UserDto updatedUserDto = getUserDto();
         updatedUserDto.setEmail(UPDATED_EMAIL);
         updatedUserDto.setRole(UPDATED_ROLE);
-        when(userRepository.findById(USER_ID)).thenReturn(Optional.of(getUser()));
-        when(userRepository.save(any())).thenReturn(getUser());
-        when((userMapper.mapToDto(getUser()))).thenReturn(updatedUserDto);
+        when(userRepository.findById(USER_ID)).thenReturn(Optional.of(testUser()));
+        when(userRepository.save(any())).thenReturn(testUser());
+        when((userMapper.mapToDto(testUser()))).thenReturn(updatedUserDto);
         assertThat(userService.updateUser(USER_ID,updatedUserDto),is(equalTo(updatedUserDto)));
         verify(userMapper).overwriteNotNullProperties(any(),any());
     }
