@@ -26,16 +26,19 @@ public class CategoryController implements CategoryApi {
         return categoryAssembler.toModel(categoryService.getCategoryById(id));
     }
 
+    @RequireAdminPrivileges
     @Override
     public CategoryModel addCategory(CategoryDto categoryDto) {
         return categoryAssembler.toModel(categoryService.addCategory(categoryDto));
     }
 
+    @RequireAdminPrivileges
     @Override
     public CategoryModel updateCategory(long id, CategoryDto categoryDto) {
         return categoryAssembler.toModel(categoryService.updateCategory(id, categoryDto));
     }
 
+    @RequireAdminPrivileges
     @Override
     public ResponseEntity<Void> deleteCategory(long id) {
         categoryService.deleteCategory(id);

@@ -3,6 +3,7 @@ package my.flick.rd.springproject.api;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import my.flick.rd.springproject.annotation.RequireAdminPrivileges;
 import my.flick.rd.springproject.controller.model.UserModel;
 import my.flick.rd.springproject.dto.UserDto;
 import my.flick.rd.springproject.dto.validationgroups.OnCreate;
@@ -36,12 +37,14 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.CREATED)
     UserModel createUser(@RequestBody @Validated(OnCreate.class) UserDto userDto);
 
+    @RequireAdminPrivileges
     @ApiOperation("update user")
     @ApiImplicitParam(name = "id", type = "path", required = true, paramType = "long")
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     UserModel updateUser(@PathVariable long id,@RequestBody @Validated(OnUpdate.class) UserDto userDto);
 
+    @RequireAdminPrivileges
     @ApiOperation("delete user")
     @ApiImplicitParam(name = "id", type = "path", required = true, paramType = "long")
     @DeleteMapping("/{id}")

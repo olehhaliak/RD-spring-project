@@ -2,6 +2,7 @@ package my.flick.rd.springproject.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import my.flick.rd.springproject.annotation.RequireAdminPrivileges;
 import my.flick.rd.springproject.dto.ProductDto;
 import my.flick.rd.springproject.exception.CategoryNotFoundException;
 import my.flick.rd.springproject.model.Product;
@@ -86,6 +87,7 @@ public class ProductServiceImpl implements ProductService {
         throw new NotYetImplementedException();
     }
 
+    @RequireAdminPrivileges
     @Override
     public ProductDto addProduct(ProductDto productRequestDto) {
         if (!categoryService.existsById(productRequestDto.getCategoryId())) {
@@ -97,6 +99,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    @RequireAdminPrivileges
     @Override
     public ProductDto updateProduct(long id, ProductDto productDto) {
         if (!categoryService.existsById(productDto.getCategoryId())) {
@@ -111,6 +114,7 @@ public class ProductServiceImpl implements ProductService {
         return dtoMapper.mapToDto(product);
     }
 
+    @RequireAdminPrivileges
     @Override
     public void deleteProduct(long id) {
         if (!productRepository.existsById(id)) {

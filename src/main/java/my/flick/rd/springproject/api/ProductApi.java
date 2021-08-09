@@ -18,7 +18,7 @@ import java.util.List;
 @Api(tags = "Product management api")
 @RequestMapping("/api/v1/products")
 public interface ProductApi {
-    @ApiOperation("get all")
+    @ApiOperation("get products by search template")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ProductModel> getProduct( @RequestBody(required = false)ProductSearchTemplate searchTemplate);

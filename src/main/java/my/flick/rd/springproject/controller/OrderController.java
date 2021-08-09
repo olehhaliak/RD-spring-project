@@ -1,6 +1,7 @@
 package my.flick.rd.springproject.controller;
 
 import lombok.RequiredArgsConstructor;
+import my.flick.rd.springproject.annotation.RequireAdminPrivileges;
 import my.flick.rd.springproject.api.OrderApi;
 import my.flick.rd.springproject.controller.assembler.OrderAssembler;
 import my.flick.rd.springproject.controller.model.OrderModel;
@@ -17,6 +18,7 @@ public class OrderController implements OrderApi {
     private final OrderService orderService;
     private final OrderAssembler orderAssembler;
 
+    @RequireAdminPrivileges
     @Override
     public List<OrderModel> getAllOrders() {
         return orderService.getAllOrders().stream().map(orderAssembler::toModel).collect(Collectors.toList());
@@ -28,11 +30,13 @@ public class OrderController implements OrderApi {
         return orderService.getCurrentUserOrders().stream().map(orderAssembler::toModel).collect(Collectors.toList());
     }
 
+    @RequireAdminPrivileges
     @Override
     public List<OrderModel> getUserOrders(long userId) {
         return orderService.getUserOrders(userId).stream().map(orderAssembler::toModel).collect(Collectors.toList());
     }
 
+    @RequireAdminPrivileges
     @Override
     public OrderModel changeOrderStatus(long id, Status status) {
         return orderAssembler.toModel(orderService.changeOrderStatus(id,status));
