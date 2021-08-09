@@ -2,19 +2,17 @@ package my.flick.rd.springproject.util.mapper.impl;
 
 import lombok.RequiredArgsConstructor;
 import my.flick.rd.springproject.dto.OrderDto;
-import my.flick.rd.springproject.dto.OrderItemDto;
 import my.flick.rd.springproject.model.Order;
-import my.flick.rd.springproject.model.OrderItem;
 import my.flick.rd.springproject.model.User;
 import my.flick.rd.springproject.util.mapper.OrderDtoMapper;
 import my.flick.rd.springproject.util.mapper.OrderItemDtoMapper;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
+@Component
 public class OrderDtoMapperImpl implements OrderDtoMapper {
        private final OrderItemDtoMapper orderItemDtoMapper;
     @Override

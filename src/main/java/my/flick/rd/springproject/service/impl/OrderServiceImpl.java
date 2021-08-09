@@ -12,6 +12,7 @@ import my.flick.rd.springproject.repository.OrderRepository;
 import my.flick.rd.springproject.service.AuthService;
 import my.flick.rd.springproject.service.OrderService;
 import my.flick.rd.springproject.service.ProductService;
+import my.flick.rd.springproject.util.mapper.OrderDtoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,24 +26,20 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService;
     private final AuthService authService;
     private final OrderRepository orderRepository;
+    private final OrderDtoMapper orderDtoMapper;
 
     @Override
     @Transactional
     public OrderDto createOrder(Set<OrderItem> items) {
         User customer = authService.getCustomer();
         checkForProductExistence(items);
-        Order order = Order.builder().
-                customer(customer)
+        Order order = Order.builder()
+                .customer(customer)
                 .status(Status.REGISTERED)
                 .items(items)
                 .build();
-        log.info("PERSISITNG");
-        System.out.println(order);
         order = orderRepository.save(order);
-        log.info("OBTAINING");
-        order = orderRepository.getById(order.getId());
-        System.out.println(order);
-        return new OrderDto();
+        return orderDtoMapper.mapToDto(order);
     }
 
     private void checkForProductExistence(Set<OrderItem> items) {

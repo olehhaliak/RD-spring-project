@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import my.flick.rd.springproject.model.OrderItem;
 import my.flick.rd.springproject.model.enums.Status;
 
 import java.time.LocalDateTime;

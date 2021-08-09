@@ -38,5 +38,15 @@ public class Order {
 
     @UpdateTimestamp
     LocalDateTime updateTime;
+    @PrePersist
+    public void onInsert() {
+        LocalDateTime now = LocalDateTime.now();
+        creationTime = now;
+        updateTime = now;
+    }
 
+    @PreUpdate
+    public void onUpdate() {
+        updateTime = LocalDateTime.now();
+    }
 }
