@@ -10,6 +10,7 @@ import my.flick.rd.springproject.repository.ProductRepository;
 import my.flick.rd.springproject.service.CategoryService;
 import my.flick.rd.springproject.service.ProductService;
 import my.flick.rd.springproject.util.mapper.ProductDtoMapper;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +38,11 @@ public class ProductServiceImpl implements ProductService {
                 .findById(id)
                 .map(dtoMapper::mapToDto)
                 .orElseThrow(() -> new ProductNotFoundException("No Product with specified id was found"));
+    }
+
+    @Override
+    public Product getProduct(Product product) {
+       throw new NotYetImplementedException();
     }
 
     @Override

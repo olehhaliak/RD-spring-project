@@ -1,10 +1,13 @@
 package my.flick.rd.springproject.service;
 
+import my.flick.rd.springproject.model.User;
 import org.springframework.stereotype.Service;
 
-public interface SecurityService {
+public interface AuthService {
 
     void checkAdminPrivileges();
 
     void signIn(String email,String password);//todo:change pass String --> char[]
+
+    User getCustomer();
 }

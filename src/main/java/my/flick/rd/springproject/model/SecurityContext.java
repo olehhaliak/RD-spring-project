@@ -2,6 +2,7 @@ package my.flick.rd.springproject.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import my.flick.rd.springproject.service.AuthService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * Session-scoped wrapper for user
  * used to perform security checks
- * @see my.flick.rd.springproject.service.SecurityService
+ * @see AuthService
  */
 @Component
 @Scope(value = "session",proxyMode = ScopedProxyMode.TARGET_CLASS)

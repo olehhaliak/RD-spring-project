@@ -26,7 +26,6 @@ public class CategoryController implements CategoryApi {
         return categoryAssembler.toModel(categoryService.getCategoryById(id));
     }
 
-    @RequireAdminPrivileges
     @Override
     public CategoryModel addCategory(CategoryDto categoryDto) {
         return categoryAssembler.toModel(categoryService.addCategory(categoryDto));

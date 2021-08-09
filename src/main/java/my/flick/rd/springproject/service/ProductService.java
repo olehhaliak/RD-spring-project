@@ -1,6 +1,7 @@
 package my.flick.rd.springproject.service;
 
 import my.flick.rd.springproject.dto.ProductDto;
+import my.flick.rd.springproject.model.Product;
 
 import java.util.List;
 
@@ -8,6 +9,9 @@ public interface ProductService {
     List<ProductDto> getAllProducts();
 
     ProductDto getProductById(long id);
+
+
+    Product getProduct(Product product);
 
     ProductDto addProduct(ProductDto product);
 

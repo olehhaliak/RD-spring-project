@@ -2,17 +2,18 @@ package my.flick.rd.springproject.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import my.flick.rd.springproject.exception.AdminPrivilegesRequiredException;
+import my.flick.rd.springproject.exception.UserIsNotCustomerException;
 import my.flick.rd.springproject.exception.UserNotAuthentificatedException;
 import my.flick.rd.springproject.model.SecurityContext;
 import my.flick.rd.springproject.model.User;
 import my.flick.rd.springproject.model.enums.Role;
-import my.flick.rd.springproject.service.SecurityService;
+import my.flick.rd.springproject.service.AuthService;
 import my.flick.rd.springproject.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SecurityServiceImpl implements SecurityService {
+public class AuthServiceImpl implements AuthService {
     private final SecurityContext securityContext;
     private final UserService userService;
 
@@ -28,10 +29,19 @@ public class SecurityServiceImpl implements SecurityService {
         securityContext.setUser(userService.getAuthenticatedUser(email,password));
     }
 
+    @Override
+    public User getCustomer() {
+        if(currentUser().getRole().equals(Role.CUSTOMER)){
+            return currentUser();
+        }
+       throw new UserIsNotCustomerException("current user is not a customer");
+    }
+
     private User currentUser(){
         if(securityContext.getUser()==null){
             throw new UserNotAuthentificatedException("accessing this resource requires authentication");
         }
         return securityContext.getUser();
     }
+
 }

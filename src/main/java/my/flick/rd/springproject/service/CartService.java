@@ -1,5 +1,6 @@
 package my.flick.rd.springproject.service;
 
+import my.flick.rd.springproject.dto.OrderDto;
 import my.flick.rd.springproject.dto.OrderItemDto;
 
 import java.util.Arrays;
@@ -22,5 +23,5 @@ public interface CartService {
     void clear();
 
     Set<OrderItemDto> getItems();
-    //Todo:add method for ceatingOrder
+    OrderDto checkout();
 }

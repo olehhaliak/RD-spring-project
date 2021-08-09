@@ -16,42 +16,48 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionHandlingController {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Error> handleException(Exception exception){
-       return new ResponseEntity<>(new Error(exception),HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Error> handleException(Exception exception) {
+        return new ResponseEntity<>(new Error(exception), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Error> handleException(NotFoundException exception){
-        return new ResponseEntity<>(new Error(exception),HttpStatus.NOT_FOUND);
+    public ResponseEntity<Error> handleException(NotFoundException exception) {
+        return new ResponseEntity<>(new Error(exception), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(SelfReferencingException.class)
-    public ResponseEntity<Error> handleException(SelfReferencingException exception){
-        return new ResponseEntity<>(new Error(exception),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Error> handleException(SelfReferencingException exception) {
+        return new ResponseEntity<>(new Error(exception), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Error> handleException(MethodArgumentNotValidException exception){
-        return new ResponseEntity<>(new Error(exception.getMessage(), ErrorType.VALIDATION_ERROR_TYPE),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Error> handleException(MethodArgumentNotValidException exception) {
+        return new ResponseEntity<>(new Error(exception.getMessage(), ErrorType.VALIDATION_ERROR_TYPE), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Error> handleException(HttpMessageNotReadableException exception){
-        return new ResponseEntity<>(new Error(exception.getMessage(), ErrorType.VALIDATION_ERROR_TYPE),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Error> handleException(HttpMessageNotReadableException exception) {
+        return new ResponseEntity<>(new Error(exception.getMessage(), ErrorType.VALIDATION_ERROR_TYPE), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserNotAuthentificatedException.class)
-    public ResponseEntity<Error> handleException(UserNotAuthentificatedException exception){
-        return new ResponseEntity<>(new Error(exception),HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(AdminPrivilegesRequiredException.class)
-    public ResponseEntity<Error> handleException(AdminPrivilegesRequiredException exception){
-        return new ResponseEntity<>(new Error(exception),HttpStatus.FORBIDDEN);
+    public ResponseEntity<Error> handleException(UserNotAuthentificatedException exception) {
+        return new ResponseEntity<>(new Error(exception), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<Error> handleException(InvalidCredentialsException exception){
-        return new ResponseEntity<>(new Error(exception),HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<Error> handleException(InvalidCredentialsException exception) {
+        return new ResponseEntity<>(new Error(exception), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AdminPrivilegesRequiredException.class)
+    public ResponseEntity<Error> handleException(AdminPrivilegesRequiredException exception) {
+        return new ResponseEntity<>(new Error(exception), HttpStatus.FORBIDDEN);
+    }
+
+
+    @ExceptionHandler(UserIsNotCustomerException.class)
+    public ResponseEntity<Error> handleException(UserIsNotCustomerException exception) {
+        return new ResponseEntity<>(new Error(exception), HttpStatus.FORBIDDEN);
     }
 }

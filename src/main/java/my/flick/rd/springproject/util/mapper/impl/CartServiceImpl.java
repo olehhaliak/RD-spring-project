@@ -1,10 +1,12 @@
 package my.flick.rd.springproject.util.mapper.impl;
 
 import lombok.RequiredArgsConstructor;
+import my.flick.rd.springproject.dto.OrderDto;
 import my.flick.rd.springproject.dto.OrderItemDto;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.model.Cart;
 import my.flick.rd.springproject.service.CartService;
+import my.flick.rd.springproject.service.OrderService;
 import my.flick.rd.springproject.service.ProductService;
 import my.flick.rd.springproject.util.mapper.OrderItemDtoMapper;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class CartServiceImpl implements CartService {
    private final Cart cart;
    private final OrderItemDtoMapper itemDtoMapper;
    private final ProductService productService;
+   private final OrderService orderService;
 
     @Override
     public Set<OrderItemDto> getItems() {
@@ -47,5 +50,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void clear() {
         cart.clear();
+    }
+
+    @Override
+    public OrderDto checkout() {
+       return orderService.createOrder(getItems().stream().map(itemDtoMapper::mapToModel).collect(Collectors.toSet()));
     }
 }
