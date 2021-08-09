@@ -1,9 +1,7 @@
 package my.flick.rd.springproject.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import my.flick.rd.springproject.annotation.RequireAdminPrivileges;
 import my.flick.rd.springproject.exception.*;
-import my.flick.rd.springproject.exception.SecurityException;
 import my.flick.rd.springproject.model.Error;
 import my.flick.rd.springproject.model.enums.ErrorType;
 import org.springframework.http.HttpStatus;
@@ -50,5 +48,10 @@ public class ExceptionHandlingController {
     @ExceptionHandler(AdminPrivilegesRequiredException.class)
     public ResponseEntity<Error> handleException(AdminPrivilegesRequiredException exception){
         return new ResponseEntity<>(new Error(exception),HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Error> handleException(InvalidCredentialsException exception){
+        return new ResponseEntity<>(new Error(exception),HttpStatus.UNAUTHORIZED);
     }
 }

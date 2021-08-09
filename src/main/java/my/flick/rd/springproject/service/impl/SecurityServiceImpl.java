@@ -7,12 +7,14 @@ import my.flick.rd.springproject.model.SecurityContext;
 import my.flick.rd.springproject.model.User;
 import my.flick.rd.springproject.model.enums.Role;
 import my.flick.rd.springproject.service.SecurityService;
+import my.flick.rd.springproject.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class SecurityServiceImpl implements SecurityService {
     private final SecurityContext securityContext;
+    private final UserService userService;
 
     @Override
     public void checkAdminPrivileges() {
@@ -23,7 +25,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public void signIn(String email, String password) {
-
+        securityContext.setUser(userService.getAuthenticatedUser(email,password));
     }
 
     private User currentUser(){
