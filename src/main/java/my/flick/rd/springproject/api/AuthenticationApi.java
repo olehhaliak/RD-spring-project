@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Api("Authentication")
+@Api(tags = "Authentication")
 @RequestMapping("/api/v1/auth")
 public interface AuthenticationApi {
 
