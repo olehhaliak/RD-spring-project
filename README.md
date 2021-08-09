@@ -18,3 +18,9 @@ Here is its description:
 - блокування/розблокування користувача;
 - переведення замовлення зі статусу 'зареєстрований' до 'оплачений' або 'скасований'.
 ```
+
+
+### API
+To get up-to-date API docs, do followig:
+1. run this application
+2. open `http://localhost:8080/swagger-ui.html` in your browser
