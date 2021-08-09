@@ -14,10 +14,8 @@ import javax.persistence.*;
 @Entity
 public class OrderItem {
     @Id
+    @GeneratedValue
     private long id;
-    private long orderId;//@Todo: replace with Order object
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "product_id",referencedColumnName = "id")
-    private Product product;
+    private long productId;
     private int quantity;
 }

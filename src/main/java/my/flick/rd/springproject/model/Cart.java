@@ -18,7 +18,7 @@ public class Cart {//todo: make interface of it
     private final Map<Long, OrderItem> items;
 
     public void saveItem(OrderItem item) {
-        items.put(item.getProduct().getId(), item);
+        items.put(item.getProductId(), item);
         System.out.println(Arrays.toString(items.values().toArray()));
     }
 

@@ -12,13 +12,13 @@ public class OrderItemDtoMapperImpl implements OrderItemDtoMapper {
     @Override
     public OrderItem mapToModel(OrderItemDto dto) {
         return OrderItem.builder()
-                .product(Product.builder().id(dto.getProductId()).build())
+                .productId(dto.getProductId())
                 .quantity(dto.getQuantity())
                 .build();
     }
 
     @Override
     public OrderItemDto mapToDto(OrderItem model) {
-        return new OrderItemDto(model.getProduct().getId(),model.getQuantity());
+        return new OrderItemDto(model.getProductId(),model.getQuantity());
     }
 }

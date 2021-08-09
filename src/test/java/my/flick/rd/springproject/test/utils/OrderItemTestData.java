@@ -1,6 +1,7 @@
 package my.flick.rd.springproject.test.utils;
 
 import my.flick.rd.springproject.dto.OrderItemDto;
+import my.flick.rd.springproject.model.Order;
 import my.flick.rd.springproject.model.OrderItem;
 import my.flick.rd.springproject.model.Product;
 
@@ -11,11 +12,10 @@ public class OrderItemTestData {
     public static final int ITEM_QUANTITY = 5;
 
     public static OrderItem testOrderItem(){
-        Product product = Product.builder().id(ITEM_PRODUCT_ID).build();
         return OrderItem.builder()
                 .id(ITEM_ID)
-                .product(product)
-                .orderId(ITEM_ORDER_ID)
+                .productId(ITEM_PRODUCT_ID)
+//                .order(Order.builder().id(ITEM_ORDER_ID).build())//todo: delete or uncomment
                 .quantity(ITEM_QUANTITY)
                 .build();
     }

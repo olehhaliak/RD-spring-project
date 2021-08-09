@@ -23,7 +23,7 @@ class OrderItemDtoMapperImplTest {
     void maoToModelTest() {
         OrderItem actualItem = itemDtoMapper.mapToModel(testOrderItemDto());
         assertAll(
-                ()->assertEquals(ITEM_PRODUCT_ID,actualItem.getProduct().getId()),
+                ()->assertEquals(ITEM_PRODUCT_ID,actualItem.getProductId()),
                 ()->assertEquals(ITEM_QUANTITY,actualItem.getQuantity())
         );
     }
