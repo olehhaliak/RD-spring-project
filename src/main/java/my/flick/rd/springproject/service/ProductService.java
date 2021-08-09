@@ -2,11 +2,12 @@ package my.flick.rd.springproject.service;
 
 import my.flick.rd.springproject.dto.ProductDto;
 import my.flick.rd.springproject.model.Product;
+import my.flick.rd.springproject.model.ProductSearchTemplate;
 
 import java.util.List;
 
 public interface ProductService {
-    List<ProductDto> getAllProducts();
+    List<ProductDto> getProducts(ProductSearchTemplate searchTemplate);
 
     ProductDto getProductById(long id);
 

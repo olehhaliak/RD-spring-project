@@ -7,6 +7,7 @@ import my.flick.rd.springproject.controller.model.ProductModel;
 import my.flick.rd.springproject.dto.ProductDto;
 import my.flick.rd.springproject.dto.validationgroups.OnCreate;
 import my.flick.rd.springproject.dto.validationgroups.OnUpdate;
+import my.flick.rd.springproject.model.ProductSearchTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +21,7 @@ public interface ProductApi {
     @ApiOperation("get all")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductModel> getAllProducts();
+    public List<ProductModel> getProduct( @RequestBody(required = false)ProductSearchTemplate searchTemplate);
 
     @ApiOperation("get by id")
     @ApiImplicitParam(name = "id", type = "path", required = true, paramType = "long")

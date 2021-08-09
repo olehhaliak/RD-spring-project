@@ -53,7 +53,7 @@ class ProductServiceImplTest {
         when(productDtoMapper.mapToDto(PRODUCT)).thenReturn(PRODUCT_DTO);
         when(productRepository.findAll()).thenReturn(List.of(PRODUCT));
 
-        assertThat(productService.getAllProducts(), contains(PRODUCT_DTO));
+        assertThat(productService.getProducts(null), contains(PRODUCT_DTO));
     }
 
     @Test

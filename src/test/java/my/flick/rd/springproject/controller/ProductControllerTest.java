@@ -36,7 +36,7 @@ class ProductControllerTest {
     private static final String GET_BY_ID_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
             .getProduct(PRODUCT_ID)).toString();
     private static final String GET_All_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
-            .getAllProducts()).toString();
+            .getProduct(null)).toString();
     private static final String ADD_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
             .addProduct(PRODUCT_DTO)).toString();
     private static final String UPDATE_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
@@ -77,7 +77,7 @@ class ProductControllerTest {
 
     @Test
     void getAllProductsTest() throws Exception {
-        when(productService.getAllProducts()).thenReturn(List.of(PRODUCT_DTO));
+        when(productService.getProducts(null)).thenReturn(List.of(PRODUCT_DTO));
         when(assembler.toModel(PRODUCT_DTO)).thenReturn(new ProductModel(PRODUCT_DTO));
         mockMvc.perform(get(GET_All_LINK))
                 .andDo(print())

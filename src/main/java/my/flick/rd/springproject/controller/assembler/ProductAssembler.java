@@ -21,7 +21,7 @@ public class ProductAssembler extends RepresentationModelAssemblerSupport<Produc
     public ProductModel toModel(ProductDto entity) {
         ProductModel model = new ProductModel(entity);
         Link getById = WebMvcLinkBuilder.linkTo(methodOn(ProductController.class).getProduct(entity.getId())).withSelfRel();
-        Link getAll = WebMvcLinkBuilder.linkTo(methodOn(ProductController.class).getAllProducts()).withRel("get_all");
+        Link getAll = WebMvcLinkBuilder.linkTo(methodOn(ProductController.class).getProduct(null)).withRel("get_all");
         Link create = WebMvcLinkBuilder.linkTo(methodOn(ProductController.class).addProduct(null)).withRel("add");
         Link update = WebMvcLinkBuilder.linkTo(methodOn(ProductController.class).updateProduct(entity.getId(),null)).withRel("update");
         Link delete = WebMvcLinkBuilder.linkTo(methodOn(ProductController.class).deleteProduct(entity.getId())).withRel("delete");
