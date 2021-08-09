@@ -5,6 +5,7 @@ import my.flick.rd.springproject.api.ProductApi;
 import my.flick.rd.springproject.controller.assembler.ProductAssembler;
 import my.flick.rd.springproject.controller.model.ProductModel;
 import my.flick.rd.springproject.dto.ProductDto;
+import my.flick.rd.springproject.model.ProductSearchTemplate;
 import my.flick.rd.springproject.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,8 @@ public class ProductController implements ProductApi {
     private final ProductAssembler productAssembler;
 
     @Override
-    public List<ProductModel> getAllProducts() {
-        return productService.getAllProducts().stream().map(productAssembler::toModel).collect(Collectors.toList());
+    public List<ProductModel> getProducts(ProductSearchTemplate searchTemplate) {
+        return productService.getProducts(searchTemplate).stream().map(productAssembler::toModel).collect(Collectors.toList());
     }
 
     @Override

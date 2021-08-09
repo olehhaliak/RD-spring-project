@@ -6,6 +6,7 @@ import my.flick.rd.springproject.dto.ProductDto;
 import my.flick.rd.springproject.exception.CategoryNotFoundException;
 import my.flick.rd.springproject.model.Product;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
+import my.flick.rd.springproject.model.ProductSearchTemplate;
 import my.flick.rd.springproject.repository.ProductRepository;
 import my.flick.rd.springproject.service.CategoryService;
 import my.flick.rd.springproject.service.ProductService;
@@ -26,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDtoMapper dtoMapper;
 
     @Override
-    public List<ProductDto> getAllProducts() {
+    public List<ProductDto> getProducts(ProductSearchTemplate searchTemplate) {
         return ((List<Product>) productRepository.findAll()).stream()
                 .map(dtoMapper::mapToDto)
                 .collect(Collectors.toList());
