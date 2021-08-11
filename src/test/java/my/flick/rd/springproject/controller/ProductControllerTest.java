@@ -7,14 +7,17 @@ import my.flick.rd.springproject.controller.assembler.ProductAssembler;
 import my.flick.rd.springproject.controller.model.ProductModel;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.service.ProductService;
+import my.flick.rd.springproject.service.impl.AuthServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,7 +35,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 
 @WebMvcTest
+@ContextConfiguration(
+        classes = AuthServiceImpl.class
+)
 class ProductControllerTest {
+
     private static final String GET_BY_ID_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
             .getProduct(PRODUCT_ID)).toString();
     private static final String GET_All_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
@@ -45,7 +52,8 @@ class ProductControllerTest {
             .deleteProduct(PRODUCT_ID)).toString();
     @Autowired
     private ObjectMapper objectMapper;
-
+@SpyBean
+private AuthServiceImpl authService;
     @MockBean
     private ProductAssembler assembler;
 

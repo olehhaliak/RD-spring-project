@@ -22,11 +22,15 @@ public interface UserService {
 
     void deleteUser(long id);
 
+    void blockUser(long id);
+
+    void unblockUser(long id);
+
     /**
      * @param email
      * @param password
      * @return authenticated user if email and password is valid, otherwise
-     * @throws InvalidCredentialsException
+     * @throws my.flick.rd.springproject.exception.InvalidCredentialsException
      */
     User getAuthenticatedUser(String email,String password);
 }

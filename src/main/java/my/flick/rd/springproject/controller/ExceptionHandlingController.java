@@ -60,4 +60,9 @@ public class ExceptionHandlingController {
     public ResponseEntity<Error> handleException(UserIsNotCustomerException exception) {
         return new ResponseEntity<>(new Error(exception), HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(UserIsBlockedException.class)
+    public ResponseEntity<Error> handleException(UserIsBlockedException exception) {
+        return new ResponseEntity<>(new Error(exception), HttpStatus.FORBIDDEN);
+    }
 }

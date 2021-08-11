@@ -1,6 +1,7 @@
 package my.flick.rd.springproject.controller;
 
 import lombok.RequiredArgsConstructor;
+import my.flick.rd.springproject.annotation.RequireAdminPrivileges;
 import my.flick.rd.springproject.api.ProductApi;
 import my.flick.rd.springproject.controller.assembler.ProductAssembler;
 import my.flick.rd.springproject.controller.model.ProductModel;
@@ -30,17 +31,20 @@ public class ProductController implements ProductApi {
         return productAssembler.toModel(productService.getProductById(id));
     }
 
+    @RequireAdminPrivileges
     @Override
     public ProductModel addProduct(@RequestBody ProductDto product) {
         return productAssembler.toModel(productService.addProduct(product));
     }
 
 
+    @RequireAdminPrivileges
     @Override
     public ProductModel updateProduct(@PathVariable("id") long id, @RequestBody ProductDto productDto) {
        return productAssembler.toModel(productService.updateProduct(id, productDto));
     }
 
+    @RequireAdminPrivileges
     @Override
     public ResponseEntity<Void> deleteProduct(@PathVariable("id")long id) {
         productService.deleteProduct(id);

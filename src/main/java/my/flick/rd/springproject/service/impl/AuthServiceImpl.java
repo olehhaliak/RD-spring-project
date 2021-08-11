@@ -20,8 +20,8 @@ import javax.annotation.PostConstruct;
 @Slf4j
 public class AuthServiceImpl implements AuthService {
     private final SecurityContext securityContext;
-    private UserService userService;
-    @Value("${security.admin.checkPrivileges:true}")
+    private final UserService userService;
+    @Value("${security.admin.privileges.check:true}")
     private  boolean adminCheckRequired;
 
     @Override

@@ -18,10 +18,13 @@ public class User {
     @GeneratedValue
     Long id;
 
+    @Column(unique = true)
     String email;
 
     String password;
 
     @Enumerated(EnumType.STRING)
     Role role;
+
+    boolean blocked;
 }
