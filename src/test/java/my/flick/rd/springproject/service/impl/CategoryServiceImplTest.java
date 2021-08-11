@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -117,5 +117,17 @@ class CategoryServiceImplTest {
         when(categoryDtoMapper.mapToDto(CATEGORY)).thenReturn(CATEGORY_DTO);
         when(categoryRepository.getRootCategories()).thenReturn(List.of(CATEGORY));
         assertThat(categoryService.getRootCategories(),contains(CATEGORY_DTO));
+    }
+
+    @Test
+    void existsById_ExistsTest() {
+       when(categoryRepository.existsById(CATEGORY_ID)).thenReturn(true);
+       assertTrue(categoryService.existsById(CATEGORY_ID));
+    }
+
+    @Test
+    void existsById_NotExistsTest() {
+        when(categoryRepository.existsById(CATEGORY_ID)).thenReturn(false);
+        assertFalse(categoryService.existsById(CATEGORY_ID));
     }
 }
