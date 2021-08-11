@@ -1,4 +1,4 @@
-package my.flick.rd.springproject.util.mapper.impl;
+package my.flick.rd.springproject.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import my.flick.rd.springproject.dto.OrderDto;
@@ -54,6 +54,6 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public OrderDto checkout() {
-       return orderService.createOrder(getItems().stream().map(itemDtoMapper::mapToModel).collect(Collectors.toSet()));
+       return orderService.createOrder(cart.getItems());
     }
 }
