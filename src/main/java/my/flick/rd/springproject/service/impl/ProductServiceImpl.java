@@ -13,6 +13,7 @@ import my.flick.rd.springproject.repository.ProductRepository;
 import my.flick.rd.springproject.service.CategoryService;
 import my.flick.rd.springproject.service.ProductService;
 import my.flick.rd.springproject.util.mapper.ProductDtoMapper;
+import my.flick.rd.springproject.util.sorting.ProductSortingUtil;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.comparator.Comparators;
@@ -31,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryService categoryService;
     private final ProductRepository productRepository;
     private final ProductDtoMapper dtoMapper;
-
+    private final ProductSortingUtil sortingUtil;
     @Override
     public List<ProductDto> getProducts(ProductSearchTemplate searchTemplate) {
         if (searchTemplate == null) {
@@ -46,26 +47,8 @@ public class ProductServiceImpl implements ProductService {
                 searchTemplate.getWithMinPrice(),
                 searchTemplate.getWithMaxPrice()
         );
-        products = sortProducts(products, searchTemplate.getSortBy(), searchTemplate.isDescendingOrder());
+        products = sortingUtil.sortProducts(products, searchTemplate.getSortBy(), searchTemplate.isDescendingOrder());
         return products.stream().map(dtoMapper::mapToDto).collect(Collectors.toList());
-    }
-
-    private List<Product> sortProducts(List<Product> products, SortOption sortBy, boolean descendingOrder) {
-        var stream = products.stream();
-        if (sortBy.equals(SortOption.NAME)) {
-            stream = stream.sorted(Comparator.comparing(Product::getName));
-        }
-        if (sortBy.equals(SortOption.PRICE)) {
-            stream = stream.sorted(Comparator.comparing(Product::getPrice));
-        }
-        if (sortBy.equals(SortOption.PUBLICATION_TIME)) {
-            stream = stream.sorted(Comparator.comparing(Product::getCreationTime));
-        }
-        products = stream.collect(Collectors.toList());
-        if (descendingOrder) {
-            Collections.reverse(products);
-        }
-        return products;
     }
 
     private List<ProductDto> getAllProducts() {
