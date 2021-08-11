@@ -39,12 +39,24 @@ public class UserController implements UserApi {
 
     @Override
     public UserModel updateUser(long id, UserDto userDto) {
-        return userAssembler.toModel(userService.updateUser(id,userDto));
+        return userAssembler.toModel(userService.updateUser(id, userDto));
     }
 
     @Override
     public ResponseEntity<Void> deleteUser(long id) {
-       userService.deleteUser(id);
-       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Override
+    public ResponseEntity<Void> blockUser(long id) {
+        userService.blockUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> unblockUser(long id) {
+        userService.unblockUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

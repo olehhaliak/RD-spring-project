@@ -2,17 +2,15 @@ package my.flick.rd.springproject.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import my.flick.rd.springproject.dto.UserDto;
-import my.flick.rd.springproject.exception.InputValidationException;
-import my.flick.rd.springproject.exception.InvalidCredentialsException;
-import my.flick.rd.springproject.exception.UserNotFoundException;
+import my.flick.rd.springproject.exception.*;
 import my.flick.rd.springproject.model.User;
+import my.flick.rd.springproject.model.enums.Role;
 import my.flick.rd.springproject.repository.UserRepository;
 import my.flick.rd.springproject.service.UserService;
 import my.flick.rd.springproject.util.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,12 +60,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void blockUser(long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with id specified does not exists"));
+        if (!user.getRole().equals(Role.CUSTOMER)) {
+            throw new UserIsNotCustomerException("User with specified id is not a customer, therefore, can not be blocked");
+        }
+        user.setBlocked(true);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void unblockUser(long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with id specified does not exists"));
+        if (!user.getRole().equals(Role.CUSTOMER)) {
+            throw new UserIsNotCustomerException("User with specified id is not a customer, therefore, can not be blocked");
+        }
+        user.setBlocked(false);
+        userRepository.save(user);
+    }
+
+    @Override
     public User getAuthenticatedUser(String email, String password) {
         User user = userRepository
                 .findByEmail(email)
                 .orElseThrow(() -> new InvalidCredentialsException("User with email '" + email + "' not exists"));
         if (!user.getPassword().equals(password)) {
             throw new InvalidCredentialsException("Wrong password");
+        }
+        if(user.isBlocked()){
+            throw new UserIsBlockedException("User with provided credentials is blocked");
         }
         return user;
     }

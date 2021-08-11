@@ -50,4 +50,15 @@ public interface UserApi {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     ResponseEntity<Void> deleteUser(@PathVariable long id);
+
+
+    @ApiOperation("block user")
+    @PatchMapping("/block/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    ResponseEntity<Void> blockUser(@PathVariable long id);
+
+    @ApiOperation("block user")
+    @PatchMapping("/unblock/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    ResponseEntity<Void> unblockUser(@PathVariable long id);
 }
