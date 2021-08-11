@@ -65,10 +65,6 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("No Product with specified id was found"));
     }
 
-    @Override
-    public Product getProduct(Product product) {
-        throw new NotYetImplementedException();
-    }
 
     @RequireAdminPrivileges
     @Override

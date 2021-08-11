@@ -12,7 +12,6 @@ public interface ProductService {
     ProductDto getProductById(long id);
 
 
-    Product getProduct(Product product);
 
     ProductDto addProduct(ProductDto product);
 
