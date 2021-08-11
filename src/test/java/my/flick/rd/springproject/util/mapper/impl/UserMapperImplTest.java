@@ -25,7 +25,7 @@ class UserMapperImplTest {
 
     @Test
     void mapToModelTest() {
-        User actualUser = userDtoMapper.mapToModel(getUserDto());
+        User actualUser = userDtoMapper.mapToModel(testUserDto());
         assertAll(
                 () -> assertEquals(USER_ID, actualUser.getId()),
                 () -> assertEquals(USER_EMAIL, actualUser.getEmail()),

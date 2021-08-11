@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
     public User getAuthenticatedUser(String email, String password) {
         User user = userRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new InvalidCredentialsException("User with email '" + email + "' not exists"));
+                .orElseThrow(() -> new UserNotFoundException("User with email '" + email + "' not exists"));
         if (!user.getPassword().equals(password)) {
             throw new InvalidCredentialsException("Wrong password");
         }

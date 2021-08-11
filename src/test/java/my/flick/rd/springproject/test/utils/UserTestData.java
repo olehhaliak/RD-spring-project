@@ -16,16 +16,18 @@ public class UserTestData {
                 .email(USER_EMAIL)
                 .password(USER_PASSWORD)
                 .role(USER_ROLE)
+                .blocked(false)
                 .build();
     }
 
-    public static UserDto getUserDto() {
+    public static UserDto testUserDto() {
         return UserDto.builder()
                 .id(USER_ID)
                 .email(USER_EMAIL)
                 .password(USER_PASSWORD)
                 .passwordRepeat(USER_PASSWORD)
                 .role(USER_ROLE)
+                .blocked(false)
                 .build();
     }
 }
