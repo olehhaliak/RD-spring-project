@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.flick.rd.springproject.exception.AdminPrivilegesRequiredException;
 import my.flick.rd.springproject.exception.UserIsNotCustomerException;
-import my.flick.rd.springproject.exception.UserNotAuthentificatedException;
 import my.flick.rd.springproject.model.SecurityContext;
 import my.flick.rd.springproject.model.User;
 import my.flick.rd.springproject.model.enums.Role;
@@ -22,14 +21,11 @@ public class AuthServiceImpl implements AuthService {
     private final SecurityContext securityContext;
     private final UserService userService;
     @Value("${security.admin.privileges.check:true}")
-    private  boolean adminCheckRequired;
+    private boolean adminCheckRequired;
 
     @Override
     public void checkAdminPrivileges() {
-        if(!adminCheckRequired){
-            return;
-        }
-        if (currentUser() == null || currentUser().getRole() != Role.ADMIN) {
+        if (adminCheckRequired && securityContext.getCurrentUser().getRole() != Role.ADMIN) {
             throw new AdminPrivilegesRequiredException("accessing this resource requires admin privileges");
         }
     }
@@ -41,22 +37,17 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public User getCustomer() {
-        if (currentUser().getRole().equals(Role.CUSTOMER)) {
-            return currentUser();
+        if (securityContext.getCurrentUser().getRole().equals(Role.CUSTOMER)) {
+            return securityContext.getCurrentUser();
         }
         throw new UserIsNotCustomerException("current user is not a customer");
     }
 
-    private User currentUser() {
-        if (securityContext.getUser() == null) {
-            throw new UserNotAuthentificatedException("accessing this resource requires authentication");
-        }
-        return securityContext.getUser();
-    }
+
 
     @PostConstruct
-    private void postConstruct(){
-        log.info("admin privileges check is turned "+(adminCheckRequired?"ON":"OFF"));
+    private void postConstruct() {
+        log.info("admin privileges check is turned " + (adminCheckRequired ? "ON" : "OFF"));
     }
 
 }
