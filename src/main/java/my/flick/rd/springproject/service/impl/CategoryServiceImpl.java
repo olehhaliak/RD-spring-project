@@ -76,7 +76,6 @@ public class CategoryServiceImpl implements CategoryService {
                 .collect(Collectors.toList());
     }
 
-    //Todo: add tests
     @Override
     public List<CategoryDto> getRootCategories() {
         return categoryRepository.getRootCategories().stream()

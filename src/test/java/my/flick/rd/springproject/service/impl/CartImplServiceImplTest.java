@@ -1,7 +1,7 @@
 package my.flick.rd.springproject.service.impl;
 
 import my.flick.rd.springproject.exception.ProductNotFoundException;
-import my.flick.rd.springproject.model.Cart;
+import my.flick.rd.springproject.model.cart.CartImpl;
 import my.flick.rd.springproject.model.OrderItem;
 import my.flick.rd.springproject.service.OrderService;
 import my.flick.rd.springproject.service.ProductService;
@@ -26,9 +26,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CartServiceImplTest {
+class CartImplServiceImplTest {
     @Mock
-    Cart cart;
+    CartImpl cart;
     @Mock
     OrderItemDtoMapper orderItemDtoMapper;
     @Mock

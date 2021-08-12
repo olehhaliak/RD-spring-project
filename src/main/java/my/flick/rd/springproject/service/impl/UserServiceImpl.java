@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto addUser(UserDto userDto) {
         if (!userDto.getPassword().equals(userDto.getPasswordRepeat())) {
-            throw new InputValidationException("password and repeatPassword fields must be equal");//Todo:add test
+            throw new InputValidationException("password and repeatPassword fields must be equal");
         }
         User user = userMapper.mapToModel(userDto);
         user = userRepository.save(user);
