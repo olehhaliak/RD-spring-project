@@ -25,20 +25,20 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void checkAdminPrivileges() {
-        if (adminCheckRequired && securityContext.getCurrentUser().getRole() != Role.ADMIN) {
+        if (adminCheckRequired && securityContext.getSessionAssociatedUser().getRole() != Role.ADMIN) {
             throw new AdminPrivilegesRequiredException("accessing this resource requires admin privileges");
         }
     }
 
     @Override
     public void signIn(String email, String password) {
-        securityContext.setUser(userService.getAuthenticatedUser(email, password));
+        securityContext.associateUserWithSession(userService.getAuthenticatedUser(email, password));
     }
 
     @Override
     public User getCustomer() {
-        if (securityContext.getCurrentUser().getRole().equals(Role.CUSTOMER)) {
-            return securityContext.getCurrentUser();
+        if (securityContext.getSessionAssociatedUser().getRole().equals(Role.CUSTOMER)) {
+            return securityContext.getSessionAssociatedUser();
         }
         throw new UserIsNotCustomerException("current user is not a customer");
     }

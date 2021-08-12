@@ -42,13 +42,13 @@ class AuthServiceImplTest {
     void checkAdminPrivilegesTest() {
         User testUser = testUser();
         testUser.setRole(Role.ADMIN);
-        when(securityContext.getCurrentUser()).thenReturn(testUser);
+        when(securityContext.getSessionAssociatedUser()).thenReturn(testUser);
         authService.checkAdminPrivileges();
     }
 
     @Test
     void checkAdminPrivileges_NotAuthenticatedTest() {
-        when(securityContext.getCurrentUser()).thenThrow(UserNotAuthentificatedException.class);
+        when(securityContext.getSessionAssociatedUser()).thenThrow(UserNotAuthentificatedException.class);
         assertThrows(UserNotAuthentificatedException.class, () -> authService.checkAdminPrivileges());
     }
 
@@ -56,7 +56,7 @@ class AuthServiceImplTest {
     void checkAdminPrivileges_UserIsNotAdminTest() {
         User testUser = testUser();
         testUser.setRole(Role.CUSTOMER);
-        when(securityContext.getCurrentUser()).thenReturn(testUser);
+        when(securityContext.getSessionAssociatedUser()).thenReturn(testUser);
         assertThrows(AdminPrivilegesRequiredException.class, () -> authService.checkAdminPrivileges());
     }
 
@@ -74,20 +74,20 @@ class AuthServiceImplTest {
     void sighInTest() {
         when(userService.getAuthenticatedUser(USER_EMAIL, USER_PASSWORD)).thenReturn(testUser());
         authService.signIn(USER_EMAIL, USER_PASSWORD);
-        verify(securityContext).setUser(testUser());
+        verify(securityContext).associateUserWithSession(testUser());
     }
 
     @Test
     void getCustomerTest() {
         User testUser = testUser();
         testUser.setRole(Role.CUSTOMER);
-        when(securityContext.getCurrentUser()).thenReturn(testUser);
+        when(securityContext.getSessionAssociatedUser()).thenReturn(testUser);
         assertThat(authService.getCustomer(),is(equalTo(testUser)));
     }
 
     @Test
     void getCustomer_NotAuthenticatedTest() {
-        when(securityContext.getCurrentUser()).thenThrow(UserNotAuthentificatedException.class);
+        when(securityContext.getSessionAssociatedUser()).thenThrow(UserNotAuthentificatedException.class);
         assertThrows(UserNotAuthentificatedException.class,()->authService.getCustomer());
     }
 
@@ -95,7 +95,7 @@ class AuthServiceImplTest {
     void getCustomer_UserIsNotCustomer() {
         User testUser = testUser();
         testUser.setRole(Role.ADMIN);
-        when(securityContext.getCurrentUser()).thenReturn(testUser);
+        when(securityContext.getSessionAssociatedUser()).thenReturn(testUser);
         assertThrows(UserIsNotCustomerException.class,()->authService.getCustomer());
     }
 }

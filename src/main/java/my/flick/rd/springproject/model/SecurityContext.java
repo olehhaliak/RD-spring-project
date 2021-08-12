@@ -16,14 +16,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-@Setter
 public class SecurityContext {
     private User user;
 
-    public User getCurrentUser() {
+    public User getSessionAssociatedUser() {
         if (user == null) {
             throw new UserNotAuthentificatedException("accessing this resource requires authentication");
         }
         return user;
+    }
+
+    public void associateUserWithSession(User user){
+      this.user = user;
     }
 }
