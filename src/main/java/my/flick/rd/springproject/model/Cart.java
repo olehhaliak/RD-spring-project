@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -36,10 +35,4 @@ public class Cart {//todo: make interface of it
     public Set<OrderItem> getItems() {
         return new HashSet<>(items.values());
     }
-
-   public Set<OrderItem> pop(){
-       Set<OrderItem> set = (Set<OrderItem>) items.values();
-       items.clear();
-       return set;
-   }
 }

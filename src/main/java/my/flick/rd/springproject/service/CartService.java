@@ -18,10 +18,9 @@ public interface CartService {
 
     Set<OrderItemDto> deleteItem(long productId);
 
-    Set<OrderItemDto> popItems();
-
     void clear();
 
     Set<OrderItemDto> getItems();
+
     OrderDto checkout();
 }

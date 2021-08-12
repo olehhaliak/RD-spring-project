@@ -63,13 +63,6 @@ class CartServiceImplTest {
     }
 
     @Test
-    void popItemsTest() {
-        when(cart.pop()).thenReturn(Set.of(testOrderItem()));
-        when(orderItemDtoMapper.mapToDto(any())).thenReturn(testOrderItemDto());
-        assertThat(cartService.popItems(), contains(testOrderItemDto()));
-    }
-
-    @Test
     void clearTest() {
        cartService.clear();
        verify(cart).clear();
@@ -88,5 +81,14 @@ class CartServiceImplTest {
         when(cart.getItems()).thenReturn(testItems);
         when(orderService.createOrder(testItems)).thenReturn(testOrderDto());
         assertThat(cartService.checkout(),is(equalTo(testOrderDto())));
+    }
+
+    @Test
+    void checkoutTest_shouldClearCart() {
+        Set<OrderItem> testItems = Set.of(testOrderItem());
+        when(cart.getItems()).thenReturn(testItems);
+        when(orderService.createOrder(testItems)).thenReturn(testOrderDto());
+        cartService.checkout();
+        verify(cart).clear();
     }
 }
