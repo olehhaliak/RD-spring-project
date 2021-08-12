@@ -3,7 +3,9 @@ package my.flick.rd.springproject.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.flick.rd.springproject.dto.OrderDto;
+import my.flick.rd.springproject.exception.CartIsEmptyException;
 import my.flick.rd.springproject.exception.OrderItemNotFoundException;
+import my.flick.rd.springproject.exception.OrderNotFoundException;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.model.Order;
 import my.flick.rd.springproject.model.OrderItem;
@@ -33,8 +35,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDto createOrder(Set<OrderItem> items) {
-        User customer = authService.getCustomer();
+        if(items.isEmpty()){
+           throw new CartIsEmptyException("Cart is empty,can not create an order");
+        }
         checkForProductExistence(items);
+        User customer = authService.getCustomer();
         Order order = Order.builder()
                 .customer(customer)
                 .status(Status.REGISTERED)
@@ -74,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto changeOrderStatus(long id, Status status) {
         Order order = orderRepository
                 .findById(id)
-                .orElseThrow(()-> new OrderItemNotFoundException("Order with such id does not exists"));
+                .orElseThrow(()-> new OrderNotFoundException("Order with such id does not exists"));
         order.setStatus(status);
         order = orderRepository.save(order);
         return orderDtoMapper.mapToDto(order);
