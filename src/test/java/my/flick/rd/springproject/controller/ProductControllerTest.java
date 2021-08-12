@@ -2,16 +2,20 @@ package my.flick.rd.springproject.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import my.flick.rd.springproject.Testconfig;
 import my.flick.rd.springproject.api.ProductApi;
 import my.flick.rd.springproject.controller.assembler.ProductAssembler;
 import my.flick.rd.springproject.controller.model.ProductModel;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
+import my.flick.rd.springproject.service.AuthService;
 import my.flick.rd.springproject.service.ProductService;
 import my.flick.rd.springproject.service.impl.AuthServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -33,11 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
-
-@WebMvcTest
-@ContextConfiguration(
-        classes = AuthServiceImpl.class
-)
+@WebMvcTest(ProductController.class)
 class ProductControllerTest {
 
     private static final String GET_BY_ID_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
@@ -52,8 +52,7 @@ class ProductControllerTest {
             .deleteProduct(PRODUCT_ID)).toString();
     @Autowired
     private ObjectMapper objectMapper;
-@SpyBean
-private AuthServiceImpl authService;
+
     @MockBean
     private ProductAssembler assembler;
 
@@ -112,7 +111,7 @@ private AuthServiceImpl authService;
 
     @Test
     void updateProductTest() throws Exception {
-        when(productService.updateProduct(anyInt(),any())).thenReturn(PRODUCT_DTO);
+        when(productService.updateProduct(anyInt(), any())).thenReturn(PRODUCT_DTO);
         when(assembler.toModel(any())).thenReturn(new ProductModel(PRODUCT_DTO));
         mockMvc.perform(put(UPDATE_LINK)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -125,7 +124,7 @@ private AuthServiceImpl authService;
 
     @Test
     void updateProductNotExistsTest() throws Exception {
-        when(productService.updateProduct(anyInt(),any())).thenThrow(new ProductNotFoundException("exception"));
+        when(productService.updateProduct(anyInt(), any())).thenThrow(new ProductNotFoundException("exception"));
         when(assembler.toModel(any())).thenThrow(new ProductNotFoundException("exception"));
         mockMvc.perform(put(UPDATE_LINK)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -135,7 +134,6 @@ private AuthServiceImpl authService;
                 .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
 //        verify(assembler).toModel(PRODUCT_DTO);
     }
-
 
 
     @Test
@@ -154,7 +152,7 @@ private AuthServiceImpl authService;
     }
 
 
-    private  String asJsonString(Object obj) throws JsonProcessingException {
+    private String asJsonString(Object obj) throws JsonProcessingException {
         return objectMapper.writeValueAsString(obj);
     }
 }
