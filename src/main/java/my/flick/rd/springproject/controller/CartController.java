@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +23,7 @@ public class CartController implements CartApi {
    private final CartService cartService;
    private final CartAssembler cartAssembler;
     @Override
-    public List<OrderItemModel> saveItem(OrderItemDto itemDto) {
-        System.out.println(itemDto.toString());
+    public List<OrderItemModel> saveItem(@Valid OrderItemDto itemDto) {
        return cartService.saveItem(itemDto).stream().map(cartAssembler::toModel).collect(Collectors.toList());
     }
 
@@ -44,7 +44,7 @@ public class CartController implements CartApi {
     }
 
     @PostMapping("/checkout")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public OrderDto checkout(){//Todo:add this to CartApi properly
         return cartService.checkout();
     }

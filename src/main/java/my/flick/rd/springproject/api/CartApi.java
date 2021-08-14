@@ -17,7 +17,7 @@ public interface CartApi {
 
     @ApiOperation("adds or updates item in cart")
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     List<OrderItemModel> saveItem(@RequestBody OrderItemDto itemDto);
 
     @ApiOperation("deletes item with specified id ")
