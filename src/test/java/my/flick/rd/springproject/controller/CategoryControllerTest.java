@@ -2,17 +2,20 @@ package my.flick.rd.springproject.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import my.flick.rd.springproject.Testconfig;
 import my.flick.rd.springproject.controller.assembler.CategoryAssembler;
 import my.flick.rd.springproject.controller.model.CategoryModel;
 import my.flick.rd.springproject.dto.CategoryDto;
 import my.flick.rd.springproject.exception.CategoryNotFoundException;
 import my.flick.rd.springproject.exception.UserNotFoundException;
 import my.flick.rd.springproject.service.CategoryService;
+import my.flick.rd.springproject.test.utils.ObjectToJsonConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -32,9 +35,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CategoryController.class)
+@Import(Testconfig.class
+)
 class CategoryControllerTest {
     @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectToJsonConverter jsonConverter;
     @MockBean
     private CategoryService categoryService;
     @MockBean
@@ -103,7 +108,7 @@ class CategoryControllerTest {
         mockMvc.perform(post(ADD_CATEGORY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(asJsonString(CATEGORY_DTO))
+                .content(jsonConverter.asJsonString(CATEGORY_DTO))
         )
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.CREATED.value()))
@@ -116,7 +121,7 @@ class CategoryControllerTest {
         CategoryDto testDto = CategoryDto.builder().parentId(1).build();
         mockMvc.perform(post(ADD_CATEGORY)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(testDto))
+                .content(jsonConverter.asJsonString(testDto))
         )
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
@@ -128,7 +133,7 @@ class CategoryControllerTest {
         CategoryDto testDto = CategoryDto.builder().name("").parentId(1).build();
         mockMvc.perform(post(ADD_CATEGORY)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(testDto))
+                .content(jsonConverter.asJsonString(testDto))
         )
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
@@ -139,7 +144,7 @@ class CategoryControllerTest {
         CategoryDto testDto = CategoryDto.builder().name("   ").parentId(1).build();
         mockMvc.perform(post(ADD_CATEGORY)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(testDto))
+                .content(jsonConverter.asJsonString(testDto))
         )
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
@@ -150,7 +155,7 @@ class CategoryControllerTest {
         CategoryDto testDto = CategoryDto.builder().name("Name").parentId(-1).build();
         mockMvc.perform(post(ADD_CATEGORY)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(testDto))
+                .content(jsonConverter.asJsonString(testDto))
         )
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
@@ -162,7 +167,7 @@ class CategoryControllerTest {
         CategoryDto testDto = CategoryDto.builder().id(10).name("Name").parentId(11).build();
         mockMvc.perform(post(ADD_CATEGORY)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(testDto))
+                .content(jsonConverter.asJsonString(testDto))
         )
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
@@ -176,7 +181,7 @@ class CategoryControllerTest {
         mockMvc.perform(put(UPDATE_CATEGORY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(asJsonString(CATEGORY_DTO))
+                .content(jsonConverter.asJsonString(CATEGORY_DTO))
         )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -191,7 +196,7 @@ class CategoryControllerTest {
         mockMvc.perform(put(UPDATE_CATEGORY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(asJsonString(CATEGORY_DTO))
+                .content(jsonConverter.asJsonString(CATEGORY_DTO))
         )
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
@@ -214,7 +219,4 @@ class CategoryControllerTest {
                 .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
 
-    private String asJsonString(Object obj) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(obj);
-    }
 }
