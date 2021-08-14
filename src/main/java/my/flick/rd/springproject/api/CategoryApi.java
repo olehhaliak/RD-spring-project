@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
@@ -36,14 +37,14 @@ public interface CategoryApi {
     @ApiOperation("add new category")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    CategoryModel addCategory(@RequestBody CategoryDto categoryDto);
+    CategoryModel addCategory(@RequestBody @Valid CategoryDto categoryDto);
 
 
     @ApiOperation("update category")
     @ApiImplicitParam(name = "id", type = "path", required = true, paramType = "long")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    CategoryModel updateCategory(@PathVariable("id") long id, @RequestBody CategoryDto categoryDto);
+    CategoryModel updateCategory(@PathVariable("id") long id, @RequestBody @Valid CategoryDto categoryDto);
 
     @ApiOperation("delete category")
     @ApiImplicitParam(name = "id", type = "path", required = true, paramType = "long")

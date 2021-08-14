@@ -44,8 +44,7 @@ class ProductControllerTest {
             .getProduct(PRODUCT_ID)).toString();
     private static final String GET_All_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
             .getProduct(null)).toString();
-    private static final String ADD_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
-            .addProduct(PRODUCT_DTO)).toString();
+    private static final String ADD_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class) .addProduct(PRODUCT_DTO)).toString();
     private static final String UPDATE_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
             .updateProduct(PRODUCT_ID, null)).toString();
     private static final String DELETE_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
