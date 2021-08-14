@@ -9,6 +9,7 @@ public class UserTestData {
     public static final String USER_EMAIL = "user@mail.com";
     public static final String USER_PASSWORD = "password";
     public static final Role USER_ROLE = Role.CUSTOMER;
+    public static final boolean USER_IS_BLOCKED = false;
 
     public static User testUser() {
         return User.builder()
@@ -16,9 +17,11 @@ public class UserTestData {
                 .email(USER_EMAIL)
                 .password(USER_PASSWORD)
                 .role(USER_ROLE)
-                .blocked(false)
+                .blocked(USER_IS_BLOCKED)
                 .build();
     }
+
+
 
     public static UserDto testUserDto() {
         return UserDto.builder()
@@ -27,7 +30,7 @@ public class UserTestData {
                 .password(USER_PASSWORD)
                 .passwordRepeat(USER_PASSWORD)
                 .role(USER_ROLE)
-                .blocked(false)
+                .blocked(USER_IS_BLOCKED)
                 .build();
     }
 }

@@ -39,6 +39,7 @@ public class UserDto {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String passwordRepeat;
 
+
     @NotNull(groups = OnCreate.class)
     private Role role;
 
