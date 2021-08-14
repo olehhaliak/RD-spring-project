@@ -17,6 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+
 import static my.flick.rd.springproject.test.utils.UserTestData.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -32,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(Testconfig.class)
 class UserControllerTest {
     private static final String GET_BY_ID = linkTo(methodOn(UserController.class).getUserById(USER_ID)).toString();
+    private static final String GET_ALL_USERS = linkTo(methodOn(UserController.class).getAllUsers()).toString();
     private static final String CREATE_USER = linkTo(methodOn(UserController.class).createUser(null)).toString();
     private static final String UPDATE_USER = linkTo(methodOn(UserController.class).updateUser(USER_ID, null)).toString();
     private static final String DELETE_USER = linkTo(methodOn(UserController.class).deleteUser(USER_ID)).toString();
@@ -74,6 +78,21 @@ class UserControllerTest {
         mockMvc.perform(get(GET_BY_ID))
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
+    }
+
+    @Test
+    void getAllUsersTest() throws Exception{
+        when(userService.getAllUsers()).thenReturn(List.of(testUserDto()));
+        when(userAssembler.toModel(testUserDto())).thenReturn(new UserModel(testUserDto()));
+        mockMvc.perform(get(GET_ALL_USERS))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.[0].id").value(USER_ID))
+                .andExpect(jsonPath("$.[0].email").value(USER_EMAIL))
+                .andExpect(jsonPath("$.[0].role").value(USER_ROLE.toString()))
+                .andExpect(jsonPath("$.[0].blocked").value(USER_IS_BLOCKED));
     }
 
     @Test
