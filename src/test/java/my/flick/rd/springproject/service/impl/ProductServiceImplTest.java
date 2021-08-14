@@ -43,10 +43,10 @@ class ProductServiceImplTest {
 
     @Test
     void getProductByIdTest() {
-        when(productDtoMapper.mapToDto(PRODUCT)).thenReturn(PRODUCT_DTO);
-        when(productRepository.findById(any())).thenReturn(Optional.of(PRODUCT));
+        when(productDtoMapper.mapToDto(testProduct())).thenReturn(testProductDto());
+        when(productRepository.findById(any())).thenReturn(Optional.of(testProduct()));
 
-        assertThat(productService.getProductById(PRODUCT_ID), is(PRODUCT_DTO));
+        assertThat(productService.getProductById(PRODUCT_ID), is(testProductDto()));
     }
 
     @Test
@@ -58,10 +58,10 @@ class ProductServiceImplTest {
 
     @Test
     void getAllProducts() {
-        when(productDtoMapper.mapToDto(PRODUCT)).thenReturn(PRODUCT_DTO);
-        when(productRepository.findAll()).thenReturn(List.of(PRODUCT));
+        when(productDtoMapper.mapToDto(testProduct())).thenReturn(testProductDto());
+        when(productRepository.findAll()).thenReturn(List.of(testProduct()));
 
-        assertThat(productService.getProducts(null), contains(PRODUCT_DTO));
+        assertThat(productService.getProducts(null), contains(testProductDto()));
     }
 
     @Test
@@ -77,50 +77,50 @@ class ProductServiceImplTest {
                 .sortBy(sortOption)
                 .descendingOrder(desc)
                 .build();
-        when(productDtoMapper.mapToDto(PRODUCT)).thenReturn(PRODUCT_DTO);
+        when(productDtoMapper.mapToDto(testProduct())).thenReturn(testProductDto());
         when(productRepository.findBySearchParams(CategoryTestData.CATEGORY_ID, minPrice, maxPrice))
-                .thenReturn(List.of(PRODUCT));
-        when(sortingUtil.sortProducts(List.of(PRODUCT),sortOption,desc)).thenReturn(List.of(PRODUCT));
-        assertThat(productService.getProducts(searchTemplate),contains(PRODUCT_DTO));
+                .thenReturn(List.of(testProduct()));
+        when(sortingUtil.sortProducts(List.of(testProduct()),sortOption,desc)).thenReturn(List.of(testProduct()));
+        assertThat(productService.getProducts(searchTemplate),contains(testProductDto()));
     }
 
     @Test
     void addProductTest() {
-        when(productDtoMapper.mapToDto(PRODUCT)).thenReturn(PRODUCT_DTO);
-        when(productDtoMapper.mapToModel(PRODUCT_DTO)).thenReturn(PRODUCT);
-        when(productRepository.save(PRODUCT)).thenReturn(PRODUCT);
+        when(productDtoMapper.mapToDto(testProduct())).thenReturn(testProductDto());
+        when(productDtoMapper.mapToModel(testProductDto())).thenReturn(testProduct());
+        when(productRepository.save(testProduct())).thenReturn(testProduct());
         when(categoryService.existsById(anyLong())).thenReturn(true);
 
-        assertThat(productService.addProduct(PRODUCT_DTO), is(equalTo(PRODUCT_DTO)));
+        assertThat(productService.addProduct(testProductDto()), is(equalTo(testProductDto())));
     }
 
     @Test
     void addProduct_CategoryNotExistsTest() {
         when(categoryService.existsById(anyLong())).thenReturn(false);
-        assertThrows(CategoryNotFoundException.class, () -> productService.addProduct(PRODUCT_DTO));
+        assertThrows(CategoryNotFoundException.class, () -> productService.addProduct(testProductDto()));
     }
 
     @Test
     void updateProduct() {
-        when(productDtoMapper.mapToDto(PRODUCT)).thenReturn(PRODUCT_DTO);
-        when(productDtoMapper.mapToModel(PRODUCT_DTO)).thenReturn(PRODUCT);
-        when(productRepository.save(PRODUCT)).thenReturn(PRODUCT);
-        when(productRepository.findById(PRODUCT_ID)).thenReturn(Optional.of(PRODUCT));
+        when(productDtoMapper.mapToDto(testProduct())).thenReturn(testProductDto());
+        when(productDtoMapper.mapToModel(testProductDto())).thenReturn(testProduct());
+        when(productRepository.save(testProduct())).thenReturn(testProduct());
+        when(productRepository.findById(PRODUCT_ID)).thenReturn(Optional.of(testProduct()));
         when(categoryService.existsById(anyLong())).thenReturn(true);
-        assertThat(productService.updateProduct(PRODUCT_ID, PRODUCT_DTO), is(equalTo(PRODUCT_DTO)));
+        assertThat(productService.updateProduct(PRODUCT_ID, testProductDto()), is(equalTo(testProductDto())));
     }
 
     @Test
     void updateProductNotExists() {
         when((productRepository.findById(PRODUCT_ID))).thenReturn(Optional.empty());
         when(categoryService.existsById(anyLong())).thenReturn(true);
-        assertThrows(ProductNotFoundException.class, () -> productService.updateProduct(PRODUCT_ID, PRODUCT_DTO));
+        assertThrows(ProductNotFoundException.class, () -> productService.updateProduct(PRODUCT_ID, testProductDto()));
     }
 
     @Test
     void updateProduct_CategoryNotExistsTest() {
         when(categoryService.existsById(anyLong())).thenReturn(false);
-        assertThrows(CategoryNotFoundException.class, () -> productService.updateProduct(PRODUCT_ID, PRODUCT_DTO));
+        assertThrows(CategoryNotFoundException.class, () -> productService.updateProduct(PRODUCT_ID, testProductDto()));
     }
 
     @Test

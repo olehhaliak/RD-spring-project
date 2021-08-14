@@ -14,7 +14,7 @@ class ProductDtoMapperImplTest {
     void mapToDtoTest() {
 
 
-       ProductDto productDto = productDtoMapper.mapToDto(PRODUCT);
+       ProductDto productDto = productDtoMapper.mapToDto(testProduct());
        assertAll(
                ()->assertEquals(PRODUCT_ID,productDto.getId()),
                ()->assertEquals(PRODUCT_NAME,productDto.getName()),
@@ -28,7 +28,7 @@ class ProductDtoMapperImplTest {
 
     @Test
     void mapToModelTest() {
-        Product product = productDtoMapper.mapToModel(PRODUCT_DTO);
+        Product product = productDtoMapper.mapToModel(testProductDto());
         assertAll(
                 ()->assertEquals(PRODUCT_ID,product.getId()),
                 ()->assertEquals(PRODUCT_NAME,product.getName()),
