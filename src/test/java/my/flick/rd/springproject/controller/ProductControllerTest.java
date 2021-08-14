@@ -2,29 +2,24 @@ package my.flick.rd.springproject.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import my.flick.rd.springproject.Testconfig;
 import my.flick.rd.springproject.api.ProductApi;
 import my.flick.rd.springproject.controller.assembler.ProductAssembler;
 import my.flick.rd.springproject.controller.model.ProductModel;
+import my.flick.rd.springproject.dto.ProductDto;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
-import my.flick.rd.springproject.service.AuthService;
 import my.flick.rd.springproject.service.ProductService;
-import my.flick.rd.springproject.service.impl.AuthServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static my.flick.rd.springproject.test.utils.ProductTestData.*;
@@ -44,7 +39,7 @@ class ProductControllerTest {
             .getProduct(PRODUCT_ID)).toString();
     private static final String GET_All_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
             .getProduct(null)).toString();
-    private static final String ADD_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class) .addProduct(PRODUCT_DTO)).toString();
+    private static final String ADD_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class) .addProduct(testProductDto())).toString();
     private static final String UPDATE_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
             .updateProduct(PRODUCT_ID, null)).toString();
     private static final String DELETE_LINK = WebMvcLinkBuilder.linkTo(methodOn(ProductApi.class)
@@ -63,8 +58,8 @@ class ProductControllerTest {
 
     @Test
     void getProductByIdTest() throws Exception {
-        when(productService.getProductById(PRODUCT_ID)).thenReturn(PRODUCT_DTO);
-        when(assembler.toModel(PRODUCT_DTO)).thenReturn(new ProductModel(PRODUCT_DTO));
+        when(productService.getProductById(PRODUCT_ID)).thenReturn(testProductDto());
+        when(assembler.toModel(testProductDto())).thenReturn(new ProductModel(testProductDto()));
         mockMvc.perform(get(GET_BY_ID_LINK))
                 .andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -83,8 +78,8 @@ class ProductControllerTest {
 
     @Test
     void getAllProductsTest() throws Exception {
-        when(productService.getProducts(null)).thenReturn(List.of(PRODUCT_DTO));
-        when(assembler.toModel(PRODUCT_DTO)).thenReturn(new ProductModel(PRODUCT_DTO));
+        when(productService.getProducts(null)).thenReturn(List.of(testProductDto()));
+        when(assembler.toModel(testProductDto())).thenReturn(new ProductModel(testProductDto()));
         mockMvc.perform(get(GET_All_LINK))
                 .andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -96,26 +91,113 @@ class ProductControllerTest {
 
     @Test
     void addProductTest() throws Exception {
-        when(productService.addProduct(any())).thenReturn(PRODUCT_DTO);
-        when(assembler.toModel(any())).thenReturn(new ProductModel(PRODUCT_DTO));
+        when(productService.addProduct(any())).thenReturn(testProductDto());
+        when(assembler.toModel(any())).thenReturn(new ProductModel(testProductDto()));
         mockMvc.perform(post(ADD_LINK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(asJsonString(PRODUCT_DTO)))
+                .content(asJsonString(testProductDto())))
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.CREATED.value()))
                 .andExpect(jsonPath("$.id").value(PRODUCT_ID));
-
     }
 
     @Test
+    void addProduct_NameIsNullTest() throws Exception {
+    ProductDto testProductDto = testProductDto();
+    testProductDto.setName(null);
+        mockMvc.perform(post(ADD_LINK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(testProductDto)))
+                .andDo(print())
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    void addProduct_NameIsEmptyTest() throws Exception {
+        ProductDto testProductDto = testProductDto();
+        testProductDto.setName("");
+        mockMvc.perform(post(ADD_LINK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(testProductDto)))
+                .andDo(print())
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    void addProduct_NameIsWhiteSpaceTest() throws Exception {
+        ProductDto testProductDto = testProductDto();
+        testProductDto.setName("   ");
+        mockMvc.perform(post(ADD_LINK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(testProductDto)))
+                .andDo(print())
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    void addProduct_ZeroPriceTest() throws Exception {
+        ProductDto testProductDto = testProductDto();
+        testProductDto.setPrice(new BigDecimal(0));
+        mockMvc.perform(post(ADD_LINK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(testProductDto)))
+                .andDo(print())
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+    @Test
+    void addProduct_NegativePriceTest() throws Exception {
+        ProductDto testProductDto = testProductDto();
+        testProductDto.setPrice(new BigDecimal(-1));
+        mockMvc.perform(post(ADD_LINK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(testProductDto)))
+                .andDo(print())
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    void addProduct_NegativeQuantityTest() throws Exception {
+        ProductDto testProductDto = testProductDto();
+        testProductDto.setQuantity(-1);
+        mockMvc.perform(post(ADD_LINK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(testProductDto)))
+                .andDo(print())
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    void addProduct_ZeroCategoryIdTest() throws Exception {
+        ProductDto testProductDto = testProductDto();
+        testProductDto.setCategoryId(0);
+        mockMvc.perform(post(ADD_LINK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(testProductDto)))
+                .andDo(print())
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    void addProduct_NegativeCategoryIdTest() throws Exception {
+        ProductDto testProductDto = testProductDto();
+        testProductDto.setCategoryId(0);
+        mockMvc.perform(post(ADD_LINK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(testProductDto)))
+                .andDo(print())
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+
+    @Test
     void updateProductTest() throws Exception {
-        when(productService.updateProduct(anyInt(), any())).thenReturn(PRODUCT_DTO);
-        when(assembler.toModel(any())).thenReturn(new ProductModel(PRODUCT_DTO));
+        when(productService.updateProduct(anyInt(), any())).thenReturn(testProductDto());
+        when(assembler.toModel(any())).thenReturn(new ProductModel(testProductDto()));
         mockMvc.perform(put(UPDATE_LINK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(asJsonString(PRODUCT_DTO)))
+                .content(asJsonString(testProductDto())))
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.OK.value()))
                 .andExpect(jsonPath("$.id").value(PRODUCT_ID));
@@ -128,10 +210,9 @@ class ProductControllerTest {
         mockMvc.perform(put(UPDATE_LINK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(asJsonString(PRODUCT_DTO)))
+                .content(asJsonString(testProductDto())))
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
-//        verify(assembler).toModel(PRODUCT_DTO);
     }
 
 
