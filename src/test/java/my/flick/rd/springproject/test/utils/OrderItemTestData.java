@@ -15,7 +15,6 @@ public class OrderItemTestData {
         return OrderItem.builder()
                 .id(ITEM_ID)
                 .productId(ITEM_PRODUCT_ID)
-//                .order(Order.builder().id(ITEM_ORDER_ID).build())//todo: delete or uncomment
                 .quantity(ITEM_QUANTITY)
                 .build();
     }

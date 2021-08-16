@@ -45,7 +45,7 @@ public class CartController implements CartApi {
 
     @PostMapping("/checkout")
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto checkout(){//Todo:add this to CartApi properly
+    public OrderDto checkout(){
         return cartService.checkout();
     }
 }

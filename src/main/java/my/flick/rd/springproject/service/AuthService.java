@@ -7,7 +7,7 @@ public interface AuthService {
 
     void checkAdminPrivileges();
 
-    void signIn(String email,String password);//todo:change pass String --> char[]
+    void signIn(String email,String password);
 
     User getCustomer();
 }
