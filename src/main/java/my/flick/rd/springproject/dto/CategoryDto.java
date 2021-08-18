@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 
 @Data
@@ -19,10 +20,10 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 @Builder
 public class CategoryDto {
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
     @NotBlank
     private String name;
-    @Positive
+    @PositiveOrZero
     private long parentId;
 }
