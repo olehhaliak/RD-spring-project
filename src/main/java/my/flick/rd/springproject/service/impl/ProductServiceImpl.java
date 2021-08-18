@@ -15,6 +15,7 @@ import my.flick.rd.springproject.util.mapper.ProductDtoMapper;
 import my.flick.rd.springproject.util.ProductTemplateParser;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,8 +65,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    @RequireAdminPrivileges
     @Override
+    @Transactional
+    @RequireAdminPrivileges
     public ProductDto addProduct(ProductDto productRequestDto) {
         if (!categoryService.existsById(productRequestDto.getCategoryId())) {
             throw new CategoryNotFoundException("category with id specified does not exists");
@@ -76,8 +78,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    @RequireAdminPrivileges
     @Override
+    @Transactional
+    @RequireAdminPrivileges
     public ProductDto updateProduct(long id, ProductDto productDto) {
         if (!categoryService.existsById(productDto.getCategoryId())) {
             throw new CategoryNotFoundException("category with id specified does not exists");
@@ -91,8 +94,9 @@ public class ProductServiceImpl implements ProductService {
         return dtoMapper.mapToDto(product);
     }
 
-    @RequireAdminPrivileges
     @Override
+    @Transactional
+    @RequireAdminPrivileges
     public void deleteProduct(long id) {
         if (!productRepository.existsById(id)) {
             throw new ProductNotFoundException("Product you are trying to delete does not exist");

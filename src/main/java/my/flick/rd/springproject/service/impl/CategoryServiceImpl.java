@@ -1,6 +1,7 @@
 package my.flick.rd.springproject.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import my.flick.rd.springproject.annotation.RequireAdminPrivileges;
 import my.flick.rd.springproject.dto.CategoryDto;
 import my.flick.rd.springproject.exception.CategoryNotFoundException;
 import my.flick.rd.springproject.exception.SelfReferencingException;
@@ -10,6 +11,7 @@ import my.flick.rd.springproject.service.CategoryService;
 import my.flick.rd.springproject.util.mapper.CategoryDtoMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
+    @Transactional
+    @RequireAdminPrivileges
     public CategoryDto addCategory(CategoryDto categoryDto) {
         if (!parentExist(categoryDto)) {
             throw new CategoryNotFoundException("Parent with id specified does not exist");
@@ -38,6 +42,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
+    @RequireAdminPrivileges
     public CategoryDto updateCategory(long id, CategoryDto categoryDto) {
         if (!categoryRepository.existsById(id)) {
             throw new CategoryNotFoundException("Category with id specified does not exist");
@@ -60,6 +66,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
+    @RequireAdminPrivileges
     public void deleteCategory(long id) {
         if (!categoryRepository.existsById(id)) {
             throw new CategoryNotFoundException("Category with id specified does not exists");

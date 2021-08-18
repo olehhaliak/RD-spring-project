@@ -44,6 +44,7 @@ class CategoryServiceImplTest {
     }
 
     @Test
+
     void addCategoryTest() {
         when(categoryRepository.existsById( CATEGORY_PARENT.getId())).thenReturn(true);
         when(categoryRepository.save(CATEGORY)).thenReturn(CATEGORY);

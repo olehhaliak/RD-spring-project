@@ -2,6 +2,7 @@ package my.flick.rd.springproject.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import my.flick.rd.springproject.annotation.RequireAdminPrivileges;
 import my.flick.rd.springproject.dto.OrderDto;
 import my.flick.rd.springproject.exception.CartIsEmptyException;
 import my.flick.rd.springproject.exception.OrderItemNotFoundException;
@@ -59,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    @RequireAdminPrivileges
     public List<OrderDto> getAllOrders() {
         return orderRepository.findAll().stream().map(orderDtoMapper::mapToDto).collect(Collectors.toList());
     }
@@ -69,6 +71,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @RequireAdminPrivileges
     public List<OrderDto> getUserOrders(long userId) {
         return orderRepository.findOrderByCustomer(userId).stream()
                 .map(orderDtoMapper::mapToDto)
@@ -76,6 +79,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @RequireAdminPrivileges
+    @Transactional
     public OrderDto changeOrderStatus(long id, Status status) {
         Order order = orderRepository
                 .findById(id)
