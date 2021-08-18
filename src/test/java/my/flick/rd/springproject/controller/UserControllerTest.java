@@ -10,6 +10,7 @@ import my.flick.rd.springproject.test.utils.ObjectToJsonConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -33,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
 @Import(Testconfig.class)
+
 class UserControllerTest {
     private static final String GET_BY_ID = linkTo(methodOn(UserController.class).getUserById(USER_ID)).toString();
     private static final String GET_ALL_USERS = linkTo(methodOn(UserController.class).getAllUsers()).toString();
