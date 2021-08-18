@@ -10,12 +10,15 @@ import my.flick.rd.springproject.repository.ProductRepository;
 import my.flick.rd.springproject.service.CategoryService;
 import my.flick.rd.springproject.test.utils.CategoryTestData;
 import my.flick.rd.springproject.util.mapper.impl.ProductDtoMapperImpl;
-import my.flick.rd.springproject.util.sorting.ProductSortingUtil;
+import my.flick.rd.springproject.util.ProductTemplateParser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -36,7 +39,7 @@ class ProductServiceImplTest {
     @Mock
     CategoryService categoryService;
     @Mock
-    ProductSortingUtil sortingUtil;
+    ProductTemplateParser templateParser;
     @InjectMocks
     ProductServiceImpl productService;
 
@@ -78,9 +81,9 @@ class ProductServiceImplTest {
                 .descendingOrder(desc)
                 .build();
         when(productDtoMapper.mapToDto(testProduct())).thenReturn(testProductDto());
-        when(productRepository.findBySearchParams(CategoryTestData.CATEGORY_ID, minPrice, maxPrice))
-                .thenReturn(List.of(testProduct()));
-        when(sortingUtil.sortProducts(List.of(testProduct()),sortOption,desc)).thenReturn(List.of(testProduct()));
+        when(templateParser.parseToPageable(searchTemplate)).thenReturn(PageRequest.of(1,1));
+        when(productRepository.findBySearchParams(CategoryTestData.CATEGORY_ID, minPrice, maxPrice, PageRequest.of(1,1)))
+                .thenReturn(new PageImpl<>(List.of(testProduct())));
         assertThat(productService.getProducts(searchTemplate),contains(testProductDto()));
     }
 

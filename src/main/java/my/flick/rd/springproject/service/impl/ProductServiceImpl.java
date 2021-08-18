@@ -8,19 +8,14 @@ import my.flick.rd.springproject.exception.CategoryNotFoundException;
 import my.flick.rd.springproject.model.Product;
 import my.flick.rd.springproject.exception.ProductNotFoundException;
 import my.flick.rd.springproject.model.ProductSearchTemplate;
-import my.flick.rd.springproject.model.enums.SortOption;
 import my.flick.rd.springproject.repository.ProductRepository;
 import my.flick.rd.springproject.service.CategoryService;
 import my.flick.rd.springproject.service.ProductService;
 import my.flick.rd.springproject.util.mapper.ProductDtoMapper;
-import my.flick.rd.springproject.util.sorting.ProductSortingUtil;
-import org.hibernate.cfg.NotYetImplementedException;
+import my.flick.rd.springproject.util.ProductTemplateParser;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.util.comparator.Comparators;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +27,8 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryService categoryService;
     private final ProductRepository productRepository;
     private final ProductDtoMapper dtoMapper;
-    private final ProductSortingUtil sortingUtil;
+    private final ProductTemplateParser templateParser;
+
     @Override
     public List<ProductDto> getProducts(ProductSearchTemplate searchTemplate) {
         if (searchTemplate == null) {
@@ -42,12 +38,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private List<ProductDto> getProductsByTemplate(ProductSearchTemplate searchTemplate) {
-        List<Product> products = productRepository.findBySearchParams(
+        Page<Product> products = productRepository.findBySearchParams(
                 searchTemplate.getInCategory(),
                 searchTemplate.getWithMinPrice(),
-                searchTemplate.getWithMaxPrice()
+                searchTemplate.getWithMaxPrice(),
+               templateParser.parseToPageable(searchTemplate)
         );
-        products = sortingUtil.sortProducts(products, searchTemplate.getSortBy(), searchTemplate.isDescendingOrder());
+        log.info(products.toString());
+        products.get().forEach(System.out::println);
         return products.stream().map(dtoMapper::mapToDto).collect(Collectors.toList());
     }
 
